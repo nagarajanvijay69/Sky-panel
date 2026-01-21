@@ -8,7 +8,6 @@ import {
    Sparkles, BrainCog, MessageCircle, Gamepad2, ArrowRight,
    UserStar, Gauge, Play
 } from "lucide-react";
-import { useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { initUser, RootState, setLogIn } from "./store/store";
 import axios from "axios";
@@ -16,7 +15,6 @@ import { useRouter } from "next/navigation";
 
 const Home = () => {
 
-   const dispatch = useDispatch();
    const router = useRouter();
    const login = useSelector((state: RootState) => state.user.value.login);
 

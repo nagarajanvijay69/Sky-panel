@@ -24,13 +24,13 @@ weather.get('/weather/:city', async (req, res) => {
 
           res.status(200).json({
                success: true, data: {
-                    temp, feels_like, humidity, sunrise, sunset, main, discription,
-                    icon, speed, name, ai: data
+                    temp, feels_like, humidity, sunrise, sunset, discription,
+                    speed, name, ai: data
                }
           });
 
      } catch (e) {
-          res.status(200).json({ success: false, message: "Incorrect City Name" });
+          res.status(200).json({ success: false, message: e.message });
      }
 });
 

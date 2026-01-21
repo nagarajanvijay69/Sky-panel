@@ -61,7 +61,7 @@ const Stopwatch = () => {
                   .
                </div>
                <div className="theme flex gap-2">
-                  <div className="border-white text-white  border-2 rounded-2xl p-2 cursor-pointer" onClick={() => router.push('/time/clock')}>
+                  <div className="border-white text-white  border-2 rounded-2xl p-2 cursor-pointer" onClick={() => router.push('/environment/time/clock')}>
                      <Clock height={32} width={32} />
                   </div>
                   {

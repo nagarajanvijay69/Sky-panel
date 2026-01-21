@@ -78,7 +78,7 @@ const Clock = () => {
                   {format12 ? "12 Hour" : "24 Hour"}
                </button>
                <div className="theme flex gap-2">
-                  <div className="border-white text-white  border-2 rounded-2xl p-2 cursor-pointer" onClick={() => router.push('/time/stopwatch')}>
+                  <div className="border-white text-white  border-2 rounded-2xl p-2 cursor-pointer" onClick={() => router.push('/environment/time/stopwatch')}>
                      <Timer height={32} width={32} />
                   </div>
                   {

@@ -12,7 +12,7 @@ auth.post('/signup', async (req, res) => {
      if (!username || !email || !password) return res.status(200).json({ success: false, message: "All fields are required" });
      let pre = await userModel.findOne({ email });
      let google = pre?.isGoogle;
-     
+
      if (google) return res.status(200).json({ success: false, message: "Email already used by google Login, try to login with google" });
      if (pre && !google) return res.status(200).json({ success: false, message: "Email already used. try to login" });
 
@@ -43,7 +43,7 @@ auth.post('/signup', async (req, res) => {
 auth.get('/login', async (req, res) => {
      const { email, password } = req.query;
      console.log(email, passport);
-     
+
      let user = await userModel.findOne({ email });
      let google = user?.isGoogle;
 
@@ -91,7 +91,6 @@ auth.get('/logout', async (req, res) => {
 auth.get('/google', passport.authenticate("google", {
      session: false,
      scope: ["profile", "email"],
-     successRedirect: '/Loginredirect',
      failureRedirect: '/redirect'
 }), async (req, res) => {
      console.log("bug", req);
@@ -103,11 +102,8 @@ auth.get('/google', passport.authenticate("google", {
                httpOnly: true,
                maxAge: 30 * 24 * 60 * 60 * 1000
           });
-          res.status(200).json({
-               success: true,
-               message: "Logged in successfully",
-               user: req.user
-          });
+          // console.log(token);
+          res.redirect(`${process.env.FRONTEND_URI}/dashboard/env/home`);
      } catch (e) {
           res.status(200).json({ success: false, message: e.message });
      }
@@ -128,13 +124,6 @@ auth.get('/token', async (req, res) => {
      } catch (error) {
           res.status(200).json({ success: false, message: e.message });
      }
-});
-
-
-// google successRedirect
-
-auth.get('/Loginredirect', async (req, res) => {
-     res.redirect(`${process.env.FRONTEND_URI}/dashboard/home`);
 });
 
 

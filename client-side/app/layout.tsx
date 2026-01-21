@@ -12,25 +12,19 @@ export default function RootLayout({ children }: Readonly<{
 }>) {
 
   const router = useRouter();
-  const verifyToken = async (callbak:Function) => {
+
+  const verifyToken = async () => {
     let res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/token`, { withCredentials: true });
-    console.log("checking");
     
     if (res.data.success) {
       store.dispatch(initUser(res.data.user));
       store.dispatch(setLogIn(true));
     };
-    callbak();
   }
   useLayoutEffect(() => {
-    verifyToken(login);
+    verifyToken();
   },[]);
 
-  const login =()=>{
-    let login = store.getState();
-    console.log("log check");
-    if(!login.user.value.login) router.replace('/auth/login');
-  }
 
 
   return (

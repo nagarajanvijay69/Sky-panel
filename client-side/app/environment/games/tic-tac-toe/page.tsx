@@ -8,7 +8,7 @@ const TicTacToe =()=>{
 
   return(
      <>
-       <div className="bg-green-600 cursor-pointer rounded-lg mx-2 my-1" onClick={()=> router.push('/games/tic-tac-toe/playGame')}>Tic Tac Toe</div>
+       <div className="bg-green-600 cursor-pointer rounded-lg mx-2 my-1" onClick={()=> router.push('/environment/games/tic-tac-toe/playGame')}>Tic Tac Toe</div>
      </>
   )
 }

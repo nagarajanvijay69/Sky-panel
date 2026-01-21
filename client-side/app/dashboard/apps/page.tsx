@@ -17,14 +17,14 @@ const app = () => {
                               <div className="flex my-3 gap-3">
                                    <div className="bg-white w-33 h-33 rounded-xl">
                                         <div className="w-17 cursor-pointer mx-auto h-17 text-white bg-orange-600 rounded-xl mt-3 flex justify-center items-center"
-                                        onClick={()=> router.push('/weather')}>
+                                        onClick={()=> router.push('/environment/weather')}>
                                              <Cloudy height={40} width={40} />
                                         </div>
                                         <p className='text-gray-900 text-base mt-3 text-center'>Weather</p>
                                    </div>
                                    <div className="bg-white w-33 h-33 rounded-xl">
                                         <div className="w-17 cursor-pointer h-17 mx-auto bg-gray-600 text-white rounded-xl mt-3 flex justify-center items-center"
-                                        onClick={()=> router.push('/time/stopwatch')} >
+                                        onClick={()=> router.push('/environment/time/stopwatch')} >
                                              <Clock height={40} width={40} />
                                         </div>
                                         <p className='text-gray-900 text-base mt-3 w-full text-center'>Stopwatch</p>
@@ -71,14 +71,14 @@ const app = () => {
                               <div className="flex my-3 gap-3">
                                    <div className="bg-white w-33 h-33 rounded-xl">
                                         <div className="w-17 mx-auto cursor-pointer h-17 text-white bg-red-600 rounded-xl mt-3 flex justify-center items-center"
-                                        onClick={()=> router.push('/games/chess/playchess')}>
+                                        onClick={()=> router.push('/environment/games/chess')}>
                                              <ChessQueen height={40} width={40} />
                                         </div>
                                         <p className='text-gray-900 text-base mt-3 text-center'>Chess</p>
                                    </div>
                                    <div className="bg-white w-33 h-33 rounded-xl">
                                         <div className="w-17 h-17 cursor-pointer mx-auto bg-yellow-600 text-white rounded-xl mt-3 flex justify-center items-center"
-                                        onClick={()=> router.push('/games/tic-tac-toe')}>
+                                        onClick={()=> router.push('/environment/games/tic-tac-toe')}>
                                              <X height={40} width={40} />
                                         </div>
                                         <p className='text-gray-900 text-base mt-3 w-full text-center'>Tic Tac Toe</p>

@@ -6,7 +6,7 @@ import Image from "next/image";
 import google from "../../../public/google.png"
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { initUser } from "@/app/store/store";
+import { initUser, setLogIn } from "../../store/store";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -19,11 +19,12 @@ const Login = () => {
           e.preventDefault();
           if (!email.trim() || !password.trim()) return alert("All fields are required");
           try {
-               let res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/login?email=${email}&password=${password}`,{
+               let res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/login?email=${email}&password=${password}`, {
                     withCredentials: true
                });
                if (res.data.success) {
                     dispatch(initUser(res.data.user));
+                    dispatch(setLogIn(true));
                     router.push('/dashboard/home');
                } else {
                     return alert(`${res.data.message}`);

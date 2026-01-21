@@ -6,7 +6,7 @@ import Image from "next/image";
 import google from "../../../public/google.png"
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { initUser } from "@/app/store/store";
+import { initUser, setLogIn } from "../../store/store";
 import { useRouter } from "next/navigation";
 
 const Signup = () => {
@@ -27,6 +27,7 @@ const Signup = () => {
                });
                if (res.data.success) {
                     dispatch(initUser(res.data.user));
+                    dispatch(setLogIn(true));
                     router.push('/dashboard/home');
                } else {
                     return alert(`${res.data.message}`);
