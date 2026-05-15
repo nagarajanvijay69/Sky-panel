@@ -36,7 +36,7 @@ const PlayGame = () => {
                 return <div key={i} className={`h-30
                  w-31 flex justify-center items-center text-2xl cursor-pointer`}
                   onClick={() => select(i)}>
-                    <img src={`${d === 'X' ?  '/tic-x.png' : d === 'O' ? '/tic-y.png' : '/bg.png'}`} className="p-10" />
+                    <img src={`${d === 'X' ?  '/tic-x.png' : d === 'O' ? '/tic-y.png' : '/bg.png'}`} className="p-8" />
                   </div>
               })
             }
