@@ -53,8 +53,8 @@ const Stopwatch = () => {
 
 
    return <>
-      <div className="w-[97%] mx-auto">
-         <div className={`w-[90%] mx-auto h-[80dvh] text-white mt-10 ${dark ? 'bg-gray-800' : 'bg-purple-900'} 
+      <div className="w-[97%] mx-auto pt-10">
+         <div className={`w-[90%] mx-auto h-[80dvh] text-white ${dark ? 'bg-gray-800' : 'bg-purple-900'} 
          border-2 shadow-lg rounded-lg flex flex-col justify-between`}>
             <div className="one flex justify-between mx-5 mt-5">
                <div className="opacity-0">

@@ -1,5 +1,6 @@
 'use client'
 
+import { Minus } from "lucide-react";
 import { useState } from "react";
 
 const PlayGame = () => {
@@ -20,16 +21,23 @@ const PlayGame = () => {
   let [data, setData] = useState(["", "", "", "", "", "", "", "", ""]);
 
   return (<>
-    <div className="box">
-      <h1 className="text-2xl font-bold text-center text-gray-800 py-10">Tic Tac Toe</h1>
+    <div className="box  md:bg-[url('/bg-pc.png')] bg-[url('/bg-mb.png')] bg-cover h-dvh pt-10 md:pt-8">
+      <h1 className="text-4xl font-bold text-center text-gray-700 pt-10">Tic <span className="text-violet-700">Tac</span> Toe</h1>
+      <div className="pb-10 text-center text-violet-700 flex justify-center items-center gap-2">
+        <div><Minus /></div>
+        <p>Best of Luck!</p>
+        <div><Minus /></div>
+      </div>
       <div className="text-center">
         <div className="inline-flex">
-          <div className="grid grid-cols-3 border-2 border-gray-500">
+          <div className="grid grid-cols-3 bg-[url('/tic-play-board.jpeg')] bg-cover rounded-3xl p-1 mt-4 md:mt-auto">
             {
               data.map((d, i) => {
-                return <div key={i} className="bg-gray-300 border-2 border-gray-500 h-30
-                 w-30 flex justify-center items-center text-2xl"
-                  onClick={() => select(i)}>{d}</div>
+                return <div key={i} className={`h-30
+                 w-31 flex justify-center items-center text-2xl cursor-pointer`}
+                  onClick={() => select(i)}>
+                    <img src={`${d === 'X' ?  '/tic-x.png' : d === 'O' ? '/tic-y.png' : '/bg.png'}`} className="p-10" />
+                  </div>
               })
             }
           </div>
@@ -41,7 +49,7 @@ const PlayGame = () => {
         }
       </div>
       <div className="text-center pb-10">
-        <button className="bg-green-600 px-4 py-2 text-white rounded cursor-pointer"
+        <button className="bg-violet-800 px-4 py-2 text-white border-violet-800 border-2 shadow-lg rounded cursor-pointer"
          onClick={()=> {
           setData(["", "", "", "", "", "", "", "", ""]);
           setTurnX(true);

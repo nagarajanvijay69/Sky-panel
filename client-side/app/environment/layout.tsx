@@ -48,14 +48,6 @@ const layout = ({ children }: Readonly<{
           {log &&
                <>
                     <div className="bg-gray-100">
-                         <nav className={`text-white w-full flex justify-between h-15 px-3 bg-purple-800`}>
-                              <div className="left h-full cursor-pointer flex items-center gap-1" onClick={() => router.back()}>
-                                   <div className="left-icon">
-                                        <ArrowLeft height={30} width={30} className="" />
-                                   </div>
-                                   <p className="text-xl cursor-pointer font-semibold">Back</p>
-                              </div>
-                         </nav>
                          {children}
                     </div>
                </>

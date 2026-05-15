@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema({
      theme: {
           type: String,
           default: 'light'
+     },
+     weatherCity: {
+          type: String,
+          default: 'Tirunelveli'
      }
 });
 

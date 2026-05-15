@@ -6,6 +6,7 @@ interface user {
      username: String,
      theme: "light" | "dark",
      login: Boolean,
+     weatherCity: String
 }
 
 interface State {
@@ -16,9 +17,10 @@ const initialState: State = {
      value: {
           _id: "",
           email: "",
+          weatherCity: "",
           username: "",
           theme: 'light',
-          login: false
+          login: true
      }
 }
 

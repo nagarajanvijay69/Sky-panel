@@ -1,11 +1,12 @@
 'use client'
 
 import "./globals.css";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import store, { initUser, setLogIn } from "./store/store"
 import axios from "axios";
 import { useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
+import outfit from "./font";
 
 export default function RootLayout({ children }: Readonly<{
   children: React.ReactNode;
@@ -21,9 +22,9 @@ export default function RootLayout({ children }: Readonly<{
       store.dispatch(setLogIn(true));
     };
   }
-  useLayoutEffect(() => {
-    verifyToken();
-  },[]);
+  // useLayoutEffect(() => {
+  //   verifyToken();
+  // },[]);
 
 
 
@@ -36,7 +37,7 @@ export default function RootLayout({ children }: Readonly<{
           <title>Sky Panel</title>
           <link rel="icon" href="../logo.png" />
         </head>
-        <body>
+        <body className={outfit.className}>
           {children}
         </body>
       </html>

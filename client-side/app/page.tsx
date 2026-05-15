@@ -227,7 +227,7 @@ const Home = () => {
          </div>
          <div className="btn flex items-center justify-center mb-15">
             <button onClick={() => {
-                     if (login) router.push('/dashboard/apps');
+                     if (login) router.push('/dashboard/home');
                      else router.push('/auth/login');
                   }} className="flex items-center gap-1 justify-center text-white bg-purple-800 cursor-pointer w-full md:w-45 py-4 md:py-3 rounded-xl">
                Get Started

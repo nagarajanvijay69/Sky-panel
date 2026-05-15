@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Bell, Settings } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
 
      const now = new Date();
+     const router = useRouter();
 
 
      const [currentDate, setCurrentDate] = useState(now.toLocaleDateString("en-US", {
@@ -50,7 +52,7 @@ const Nav = () => {
 
 
      return <>
-          <nav className="flex gap-2 justify-between px-5 py-5 bg-gray-200">
+          <nav className="flex gap-2 justify-between px-5 py-5 bg-gray-200 h-[70px]">
                <div className="left ">
                     <div className="font-bold text-xl">
                          {currentTime}
@@ -64,7 +66,8 @@ const Nav = () => {
                          <div className="text-gray-600 rounded-full bg-white p-2 border border-gray-300 cursor-pointer">
                               <Bell />
                          </div>
-                         <div className="text-gray-600 rounded-full bg-white p-2 border border-gray-300 cursor-pointer">
+                         <div className="text-gray-600 rounded-full bg-white p-2 border border-gray-300 cursor-pointer"
+                          onClick={()=> router.push('/dashboard/setting')}>
                               <Settings />
                          </div>
                     </div>

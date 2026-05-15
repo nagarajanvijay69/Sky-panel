@@ -3,7 +3,7 @@ import { MessageCircle, Gamepad2, Sun, Activity, BrainCog } from "lucide-react"
 
 const home = () => {
   return <>
-    <div className="w-[98%] mx-auto">
+    <div className="w-[98%] mx-auto h-[calc(100dvh-70px)]">
       <div className="part-1 py-5 flex flex-col lg:flex-row gap-8 w-[95%] mx-auto">
         <div className="part-1-1 bg-purple-700 text-white h-130 lg:w-[50%] rounded-2xl">
           <BrainCog />

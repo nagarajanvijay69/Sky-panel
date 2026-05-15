@@ -103,7 +103,7 @@ auth.get('/google', passport.authenticate("google", {
                maxAge: 30 * 24 * 60 * 60 * 1000
           });
           // console.log(token);
-          res.redirect(`${process.env.FRONTEND_URI}/dashboard/env/home`);
+          res.redirect(`${process.env.FRONTEND_URI}/dashboard/home`);
      } catch (e) {
           res.status(200).json({ success: false, message: e.message });
      }

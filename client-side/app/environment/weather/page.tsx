@@ -1,12 +1,16 @@
 'use client'
 
+import { initUser, RootState, setLogIn } from '@/app/store/store'
 import axios from 'axios'
 import { Search, MapPin, Sun, Droplet, Wind, Sunrise, Sunset } from 'lucide-react'
-import { useLayoutEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import { use, useLayoutEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Weather = () => {
 
-     const [city, setCity] = useState('Tirunelveli');
+     const user = useSelector((state: RootState) => state.user.value);
+     const [city, setCity] = useState<String>(user?.weatherCity ?? 'Tirunelveli');
      const [temp, setTemp] = useState(24.3);
      const [feels_like, setFeels_like] = useState(0);
      const [humidity, setHumidity] = useState("68");
@@ -14,24 +18,39 @@ const Weather = () => {
      const [sunset, setSunset] = useState("8:01:39 pm");
      const [discription, setDiscription] = useState("scattered clouds");
      const [speed, setSpeed] = useState(0);
+     const [icon, setIcon] = useState("");
      const [name, setName] = useState(city);
      const [ai, setAi] = useState("");
      const [load, setLoad] = useState(false);
+     const dispatch = useDispatch();
+     const [count, setCount] = useState(0);
 
 
      const getData = async () => {
           setLoad(true);
           const { data, success } = (await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/weather/${city}`)).data;
+
           if (!success) {
                setLoad(false);
-               return alert('Enter valid City')
+               return alert('Enter valid City');
           }
+
+
+          if (count) {
+               let res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URI}/setCity`, { _id: user?._id, city });
+               if (!res.data.success) console.error(res.data.message);
+               dispatch(initUser(res.data.user));
+               dispatch(setLogIn(true));               
+          }
+
           let t = Number(data.temp) - 273.15;
           let t2 = Number(data.feels_like) - 273.15;
           let t3 = Number(data.speed) * 3.6;
           let rise = new Date(data.sunrise * 1000).toLocaleTimeString();
           let set = new Date(data.sunset * 1000).toLocaleTimeString();
           let des = data?.ai?.weather[0]?.description;
+          let icon = data?.ai?.weather[0]?.icon;
+          setIcon(icon);
           setTemp(t);
           setFeels_like(t2);
           setHumidity(data.humidity);
@@ -43,6 +62,7 @@ const Weather = () => {
           setAi("");
           setCity("");
           setLoad(false);
+          setCount(prev => prev + 1);
      }
 
 
@@ -57,12 +77,12 @@ const Weather = () => {
 
 
      return <>
-          <div className="Weather w-[95%] md:w-[97%] mx-auto mt-5 pb-10">
+          <div className="Weather w-[95%] md:w-[97%] mx-auto pt-5 pb-10">
                <div className="flex gap-2 lg:mx-70 justify-center items-center">
                     <input type="search" className="outline-none border-2 border-gray-400 rounded-xl h-12 w-[90%] px-3 lg:px-5"
-                         placeholder="Search city here...."  onKeyDown={(k) => {
+                         placeholder="Search city here...." onKeyDown={(k) => {
                               if (k.key === 'Enter') search();
-                         }} value={city} onChange={(e)=> setCity(e.target.value)} />
+                         }} value={`${city}`} onChange={(e) => setCity(e.target.value)} />
                     <div className="location p-2.5 border-2 bg-purple-700 text-white border-purple-600 rounded-2xl cursor-pointer" onClick={search}><Search /></div>
                </div>
                <div className="locate mt-5 flex gap-1 items-center lg:w-[70%] mx-auto">
@@ -74,7 +94,10 @@ const Weather = () => {
                <div className="climate bg-purple-800 rounded-xl md:w-[70%] mx-auto mt-3">
                     <div className="icon flex justify-center mb-5">
                          <div className="text-white mt-10">
-                              <Sun height={70} width={70} />
+                              {
+                                   <img alt='weather icon'
+                                        src={`https://openweathermap.org/img/wn/${icon}@2x.png`} />
+                              }
                          </div>
                     </div>
                     <div className="flex justify-center mb-3 text-white text-5xl">

@@ -1,0 +1,67 @@
+import React, { useEffect, useState } from "react";
+import AiInput from "./AiInput";
+import { Code, Cog, Rabbit } from "lucide-react";
+
+interface pageProps {
+    setWelcomePage: React.Dispatch<React.SetStateAction<boolean>>,
+    setQuery: React.Dispatch<React.SetStateAction<string>>,
+    query: string,
+    isSidebarOpen: boolean
+}
+
+const Welcome = (props: pageProps) => {
+    const { setWelcomePage, setQuery, query, isSidebarOpen } = props;
+
+    return <>
+        <div className="h-[calc(100dvh-60px)] overflow-y-scroll w-[100%] mx-auto flex justify-center items-center">
+            <div className="w-full pt-70 pb-8 md:pt-20 lg:w-[80%]">
+                {/*input */}
+                <div className="flex flex-col items-center w-full ">
+                    <div className="flex flex-col items-center mb-5 w-[90%] mx-auto text-center">
+                        <p className="text-xl font-semibold mb-5">Hello, how can i help you today?</p>
+                        <p className="text-base text-gray-800 mb-5">Experience the next generation of intelligence.
+                            Ask anything, from complex coading to creative writing.</p>
+                    </div>
+
+                    <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5 mt-10 px-5 pb-10">
+                        <div className="bg-purple-600 shadow-2xl h-45 text-white
+                         rounded-lg flex justify-center items-center flex-col p-10 gap-2">
+                            <div className="flex justify-start w-full">
+                                <Code height={50} width={50} />
+                            </div>
+                            <div className="flex flex-col items-start w-full">
+                                <div className="text-lg font-semibold">Write Code</div>
+                                <div className="text-sm text-gray-100">React, Python, Java, C++, SQL help, etc.</div>
+                            </div>
+                        </div>
+                        <div className="bg-purple-600 shadow-2xl h-45 text-white
+                         rounded-lg flex justify-center items-center flex-col p-10 gap-2">
+                            <div className="flex justify-start w-full">
+                                <Cog height={50} width={50} />
+                            </div>
+                            <div className="flex flex-col items-start w-full">
+                                <div className="text-lg font-semibold">Debug Errors</div>
+                                <div className="text-sm text-gray-100">Fix bugs and understand issues.</div>
+                            </div>
+                        </div>
+                        <div className="bg-purple-600 shadow-2xl h-45 text-white
+                         rounded-lg flex justify-center items-center flex-col p-10 gap-2">
+                            <div className="flex justify-start w-full">
+                                <Rabbit height={50} width={50} />
+                            </div>
+                            <div className="flex flex-col items-start w-full">
+                                <div className="text-lg font-semibold">Learn Faster</div>
+                                <div className="text-sm text-gray-100">Concepts, examples, and interview prep.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={`w-full ${isSidebarOpen && "opacity-0 lg:opacity-100"}`}>
+                        <AiInput query={query} setQuery={setQuery} setWelcomePage={setWelcomePage} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </>
+}
+
+export default Welcome;
