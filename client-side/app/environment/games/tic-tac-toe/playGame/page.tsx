@@ -21,7 +21,7 @@ const PlayGame = () => {
   let [data, setData] = useState(["", "", "", "", "", "", "", "", ""]);
 
   return (<>
-    <div className="box  md:bg-[url('/bg-pc.png')] bg-[url('/bg-mb.png')] bg-cover h-dvh pt-10 md:pt-8">
+    <div className="box  md:bg-[url('/bg-pc.png')] bg-[url('/bg-mb.png')] bg-cover h-[100dvh] overflow-hidden pt-10 md:pt-8">
       <h1 className="text-4xl font-bold text-center text-gray-700 pt-10">Tic <span className="text-violet-700">Tac</span> Toe</h1>
       <div className="pb-10 text-center text-violet-700 flex justify-center items-center gap-2">
         <div><Minus /></div>
@@ -43,7 +43,7 @@ const PlayGame = () => {
           </div>
         </div>
       </div>
-      <div className="text-gray-600 text-center mt-10 pb-10 text-lg font-semibold">
+      <div className="text-gray-600 text-center mt-10 pb-5 text-lg font-semibold">
         {
           (data[0] && data[1] && data[2] && data[3] && data[4] && data[5] && data[6] && data[7] && data[8]) ? "Game Over" : (turnX ? "Turn : X" : "Turn : O")
         }
