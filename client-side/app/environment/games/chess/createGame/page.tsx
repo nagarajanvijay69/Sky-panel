@@ -14,7 +14,7 @@ const InitGame = () => {
   }
 
   return <>
-    <div className="bg-[url('/chess-mb.png')] md:bg-[url('/chess-lg.png')] bg-cover bg-center">
+    <div className="">
       <Header />
       <div className="text-2xl text-violet-800 text-center mt-7">Gam<span className="border-b-2">e L</span>obby</div>
       <div className="w-[90%] md:w-[95%] mx-auto lg:w-[70%] xl:w-[60%] bg-violet-800 mt-5 rounded-lg p-5">
