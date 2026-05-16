@@ -16,7 +16,7 @@ const JoinGame = () => {
   }
 
   return <>
-    <div className="">
+    <div className="bg-[url('/chess-mb.png')] md:bg-[url('/chess-lg.png')] bg-cover ">
       <Header />
       <div className="min-h-[calc(100dvh-112px)] flex flex-col justify-center mt-2">
         <div className="w-[90%] md:w-[95%] mx-auto lg:w-[70%] xl:w-[60%] text-violet-800 bg-gray-100 shadow-xl my-5 rounded-lg p-5">

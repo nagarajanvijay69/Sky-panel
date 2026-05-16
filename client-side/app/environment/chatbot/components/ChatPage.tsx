@@ -24,8 +24,8 @@ const ChatPage = (props: pageProps) => {
             {
                chats.map((item, index) => (
                   <div key={index} className={`flex ${item.sender === "user" ? "justify-end" : "justify-start"}`}>
-                     <p className={`flex py-2 px-3 max-w-[70%] md:max-w-[45%] lg:max-w-[70%] xl:max-w-[45%] ${item.sender === "user" ? "bg-purple-700 text-white justify-end rounded-lg" :
-                        "justify-start bg-gray-400 rounded-lg break-words"}`}>
+                     <p className={`flex py-2 px-3 max-w-[70%] md:max-w-[45%] lg:max-w-[70%] xl:max-w-[45%] ${item.sender === "user" ? "bg-violet-800 text-white justify-end rounded-lg" :
+                        "justify-start bg-gray-300 rounded-lg break-words"}`}>
                         {item.message}
                      </p>
                   </div>

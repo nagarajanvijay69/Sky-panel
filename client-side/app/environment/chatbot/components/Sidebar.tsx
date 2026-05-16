@@ -23,7 +23,7 @@ const Sidebar = (props: sidebarProps) => {
         }
     }, [isSidebarOpen])
     return <>
-        <div className="h-[calc(100dvh-60px)] bg-purple-800">
+        <div className="h-[calc(100dvh-60px)] bg-violet-800">
             <div className="px-2 py-2 pt-3">
                 {/* top content */}
                 <div className="text-white flex justify-between items-center overflow-hidden">
@@ -39,13 +39,13 @@ const Sidebar = (props: sidebarProps) => {
                 {/* List of Options */}
                 <ul className="mt-5 text-white flex flex-col gap-2">
                     <li className={`flex gap-2 justify-center items-center h-10 cursor-pointer
-                     ${isSidebarOpen && 'pr-10'} hover:bg-purple-900 bg-purple-700 rounded-lg`}>
+                     ${isSidebarOpen && 'pr-10'} hover:bg-violet-900 bg-violet-700 rounded-lg`}>
                         <div><BadgePlus /></div>
                         {isSidebarOpen && <p className={`${delay ? 'h-auto w-auto opacity-100' : 'h-0 w-0 overflow-hidden opacity-0'}
                          transistion-all duration-500`}>New Chat</p>}
                     </li>
                     <li className={`flex gap-2 justify-center items-center h-10 cursor-pointer
-                     ${isSidebarOpen && 'pr-10'} hover:bg-purple-900 bg-purple-700 rounded-lg`}>
+                     ${isSidebarOpen && 'pr-10'} hover:bg-violet-900 bg-violet-700 rounded-lg`}>
                         <div><Search /></div>
                         {isSidebarOpen && <p className={`${delay ? 'h-auto w-auto opacity-100' : 'h-0 w-0 overflow-hidden opacity-0'}
                          transistion-all duration-500`}>Search</p>}
@@ -60,7 +60,7 @@ const Sidebar = (props: sidebarProps) => {
                     <div className=" h-[60dvh] rounded  overflow-y-scroll no-scrollbar">
                         <ul className="flex flex-col gap-2 py-1">
                             <li className="px-3 h-8 flex items-center rounded-lg
-                             hover:bg-purple-900 cursor-pointer">One</li>
+                             hover:bg-violet-900 cursor-pointer">One</li>
                         </ul>
                     </div>
                 </div>

@@ -10,9 +10,9 @@ const Menu = () => {
       <div className="bg-white flex gap-5  py-3 px-5 rounded-xl justify-center">
         <div className="home bg-orange-600 text-white p-3 rounded-xl cursor-pointer" 
         onClick={()=> router.push('/dashboard/home')}><House width={30} height={30} /></div>
-        <div className="apps bg-purple-700 text-white p-3 rounded-xl cursor-pointer" 
+        <div className="apps bg-violet-700 text-white p-3 rounded-xl cursor-pointer" 
         onClick={()=> router.push('/dashboard/apps')} ><Layers width={30} height={30} /></div>
-        <div className="setting bg-gray-700 text-white p-3 rounded-xl cursor-pointer" 
+        <div className="setting bg-gray-800 text-white p-3 rounded-xl cursor-pointer" 
         onClick={()=> router.push('/dashboard/setting')} ><Settings width={30} height={30} /></div>
       </div>
     </div>

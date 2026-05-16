@@ -18,13 +18,13 @@ const Welcome = (props: pageProps) => {
                 {/*input */}
                 <div className="flex flex-col items-center w-full ">
                     <div className="flex flex-col items-center mb-5 w-[90%] mx-auto text-center">
-                        <p className="text-xl font-semibold mb-5">Hello, how can i help you today?</p>
+                        <p className="text-3xl text-violet-800 font-semibold mb-3">Hello, how can i help you today?</p>
                         <p className="text-base text-gray-800 mb-5">Experience the next generation of intelligence.
                             Ask anything, from complex coading to creative writing.</p>
                     </div>
 
                     <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5 mt-10 px-5 pb-10">
-                        <div className="bg-purple-600 shadow-2xl h-45 text-white
+                        <div className="bg-violet-600 shadow-2xl h-45 text-white
                          rounded-lg flex justify-center items-center flex-col p-10 gap-2">
                             <div className="flex justify-start w-full">
                                 <Code height={50} width={50} />
@@ -34,7 +34,7 @@ const Welcome = (props: pageProps) => {
                                 <div className="text-sm text-gray-100">React, Python, Java, C++, SQL help, etc.</div>
                             </div>
                         </div>
-                        <div className="bg-purple-600 shadow-2xl h-45 text-white
+                        <div className="bg-violet-600 shadow-2xl h-45 text-white
                          rounded-lg flex justify-center items-center flex-col p-10 gap-2">
                             <div className="flex justify-start w-full">
                                 <Cog height={50} width={50} />
@@ -44,7 +44,7 @@ const Welcome = (props: pageProps) => {
                                 <div className="text-sm text-gray-100">Fix bugs and understand issues.</div>
                             </div>
                         </div>
-                        <div className="bg-purple-600 shadow-2xl h-45 text-white
+                        <div className="bg-violet-600 shadow-2xl h-45 text-white
                          rounded-lg flex justify-center items-center flex-col p-10 gap-2">
                             <div className="flex justify-start w-full">
                                 <Rabbit height={50} width={50} />

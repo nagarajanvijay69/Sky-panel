@@ -23,7 +23,7 @@ const app = () => {
                                         <p className='text-gray-900 text-base mt-3 text-center'>Weather</p>
                                    </div>
                                    <div className="bg-white w-33 h-33 rounded-xl">
-                                        <div className="w-17 cursor-pointer h-17 mx-auto bg-gray-600 text-white rounded-xl mt-3 flex justify-center items-center"
+                                        <div className="w-17 cursor-pointer h-17 mx-auto bg-gray-700 text-white rounded-xl mt-3 flex justify-center items-center"
                                         onClick={()=> router.push('/environment/time/stopwatch')} >
                                              <Clock height={40} width={40} />
                                         </div>
@@ -35,7 +35,7 @@ const app = () => {
                               <div className="text-gray-700">Development</div>
                               <div className="flex my-3 gap-3">
                                    <div className="bg-white w-33 h-33 rounded-xl">
-                                        <div className="w-17 cursor-pointer mx-auto h-17 text-white bg-purple-600 rounded-xl mt-3 flex justify-center items-center"
+                                        <div className="w-17 cursor-pointer mx-auto h-17 text-white bg-violet-700 rounded-xl mt-3 flex justify-center items-center"
                                         onClick={()=> router.push('/environment/chatbot')}>
                                              <LeafyGreen height={40} width={40} />
                                         </div>
