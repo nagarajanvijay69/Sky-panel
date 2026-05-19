@@ -2,7 +2,7 @@
 
 import { BLACK, Chess } from 'chess.js'
 import { useState } from 'react'
-import { ChessBishop, ChessKing, ChessKnight, ChessPawn, ChessQueen, ChessRook, EllipsisVertical, User, X } from 'lucide-react'
+import { ChessBishop, ChessKing, ChessKnight, ChessPawn, ChessQueen, ChessRook, EllipsisVertical, Flag, Handshake, User, X } from 'lucide-react'
 
 const PlayChess = () => {
   const [chess, serChess] = useState(new Chess())
@@ -15,29 +15,30 @@ const PlayChess = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center h-[100dvh] max-w-[100dvw] text-black">
+      <div className="flex flex-col justify-center items-center bg-[url('/chess-mb.png')] md:bg-[url('/chess-lg.png')]
+       bg-cover h-[100dvh] max-w-[100dvw]">
         <div className=''>
           {/* oppenent */}
-          <div className='flex items-center justify-between w-80 sm:w-112 md:w-144 h-13'>
+          <div className='flex items-center bg-[#1A1333] text-white p-3 rounded-lg justify-between w-96 md:w-120'>
             <div className='flex gap-2'>
               <div className='bg-purple-800 p-2 rounded-lg h-min text-white'><User width={30} height={30} /></div>
               <div className='flex flex-col'>
-                <p>Nagarajan Vijay</p>
-                <p>2000</p>
+                <p className='text-lg'>Leo Dass</p>
+                <p className='text-gray-400'>Rating: <span>2023</span></p>
               </div>
             </div>
             <div className='flex items-center gap-1'>
               <div className='border-2 border-purple-900 p-1 px-3 bg-purple-800 text-white rounded shadow-lg'>
-                10 : 00
+                09 : 85
               </div>
             </div>
           </div>
           {/* board */}
-          <div className='flex flex-col my-3'>
+          <div className='flex flex-col my-1'>
             {board.map((row, i) => {
               return <div key={i} className='flex justify-center items-center'>
                 {row.map((square, j) => {
-                  return <div key={j} className={`w-10 h-10 sm:w-14 sm:h-14 md:w-18 md:h-18  ${(i + j) % 2 ? 'bg-green-500' : 'bg-gray-100'}`}>
+                  return <div key={j} className={`w-12  h-12  md:w-15 md:h-15  ${(i + j) % 2 ? 'bg-violet-400' : 'bg-gray-100'}`}>
                     <div className="flex justify-center items-center h-full w-full">
                       {square && (square.type == 'p' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-pawn.png' : '/black-pawn.png'}`} className='p-1' draggable={true} /> </div>)}
                       {square && (square.type == 'r' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-rook.png' : '/black-rook.png'}`} className='p-1' /> </div>)}
@@ -52,36 +53,32 @@ const PlayChess = () => {
             })}
           </div>
           {/* self */}
-          <div className='flex items-center justify-between w-80 sm:w-112 md:w-144 h-13 mb-3'>
+          <div className='flex items-center bg-[#1A1333] text-white p-3 rounded-lg justify-between w-96 md:w-120'>
             <div className='flex gap-2'>
               <div className='bg-purple-800 p-2 rounded-lg h-min text-white'><User width={30} height={30} /></div>
               <div className='flex flex-col'>
-                <p>Leo Dass</p>
-                <p>2060</p>
+                <p className='text-lg'>Leo Dass</p>
+                <p className='text-gray-400'>Rating: <span>2023</span></p>
               </div>
             </div>
             <div className='flex items-center gap-1'>
-              {
-                show ?
-                  <div className='md:hidden text-purple-900 cursor-pointer' onClick={() => setShow(false)}><X /></div>
-                  :
-                  <div className='md:hidden text-purple-900 cursor-pointer' onClick={() => setShow(true)}><EllipsisVertical /></div>
-              }
-              <button className='hidden md:block border-2 border-red-800 cursor-pointer p-1 px-3 bg-red-800 text-white rounded shadow-lg'>Draw</button>
-              <button className='hidden md:block border-2 border-gray-700 cursor-pointer p-1 px-3 bg-gray-700 text-white rounded shadow-lg'>Resign</button>
               <div className='border-2 border-purple-900 p-1 px-3 bg-purple-800 text-white rounded shadow-lg'>
                 09 : 85
               </div>
             </div>
           </div>
-          {/* small device options */}
-          {
-            show &&
-            <div className='flex justify-between fixed bottom-30 w-80'>
-              <button className='md:hidden border-2 border-red-900 p-1 px-3 bg-red-800 text-white rounded shadow-lg'>Draw</button>
-              <button className='md:hidden border-2 border-gray-900 p-1 px-3 bg-gray-700 text-white rounded shadow-lg'>Resign</button>
+          <div className='text-white flex h-12 mt-1 justify-around'>
+            {/* draw */}
+            <div className='bg-violet-900 rounded w-[49%] cursor-pointer flex justify-center items-center gap-1'>
+              <div><Handshake /></div>
+              <p>Draw</p>
             </div>
-          }
+            {/* resign */}
+            <div className='bg-red-500 rounded w-[49%] cursor-pointer flex justify-center items-center gap-1'>
+              <div><Flag /></div>
+              <p>Resign</p>
+            </div>
+          </div>
         </div>
       </div>
     </>

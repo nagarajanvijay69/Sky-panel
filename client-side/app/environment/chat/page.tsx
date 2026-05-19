@@ -67,7 +67,7 @@ const ChatSidebar = () => {
     <>
       <div className="h-[100dvh] lg:grid lg:grid-cols-5 xl:grid-cols-7 border-box overflow-y-hidden">
         <div className={`${isShowChat ? 'hidden lg:block' : ''} chat-sidebar lg:col-span-2 overflow-y-hidden`}>
-          <div className="chat-title px-4 pl-5 py-3 mt-2 font-bold text-xl text-purple-900">
+          <div className="chat-title px-4 pl-5 py-3 mt-2 font-bold text-xl text-violet-900">
             ChatHub
           </div>
           <div className="search px-4 pb-3 mx-auto w-[97%]">
@@ -87,7 +87,7 @@ const ChatSidebar = () => {
                     setUserId(item._id);
                   }}>
                   <div className="flex gap-3 justify-center items-center">
-                    <div className="rounded-full bg-purple-200 h-10 w-10 flex justify-center items-center border-2 border-purple-900">
+                    <div className="rounded-full bg-violet-200 h-10 w-10 flex justify-center items-center border-2 border-violet-900">
                       <i>{item.name.at(0)?.toUpperCase()}</i> </div>
                     <div className="">
                       <div className="">{item.name}</div>
@@ -96,7 +96,7 @@ const ChatSidebar = () => {
                   </div>
                   {
                     item.unread > 0 && (
-                      <div className="bg-purple-900 rounded-full text-white mr-2 h-5 w-5 text-sm flex justify-center items-center">
+                      <div className="bg-violet-900 rounded-full text-white mr-2 h-5 w-5 text-sm flex justify-center items-center">
                         {
                           item.unread
                         }
@@ -110,27 +110,27 @@ const ChatSidebar = () => {
         </div>
         <div className={`${isShowChat ? '' : 'hidden lg:block'} div lg:col-span-3 xl:col-span-5 h-full border-box overflow-hidden`}>
           <div className="chat-container h-[100dvh] relative">
-            <nav className="bg-purple-900 h-18 px-2 flex items-center gap-1">
+            <nav className="bg-violet-800 h-18 px-2 flex items-center gap-1">
               <div className="text-white flex items-center cursor-pointer lg:hidden">
                 <ArrowLeft width={35} height={35} onClick={() => setIsShowChat(false)} />
               </div>
               <div className="profile flex text-white justify-center items-center gap-3 ">
-                <div className="circle h-10 w-10 flex justify-center items-center text-white text-2xl rounded-full bg-purple-500 border-2
+                <div className="circle h-10 w-10 flex justify-center items-center text-white text-2xl rounded-full bg-violet-500 border-2
              border-gray-300 shadow-lg">
                   {user[0]?.name.at(0)?.toUpperCase() ?? '?'}
                 </div>
-                <p className="text-lg">
+                <div className="text-lg">
                   <div>{`${user[0]?.name ?? 'Unknown User'}`}</div>
                   <div className="text-sm text-gray-200">{user?.[0]?.lastseen}</div>
-                </p>
+                </div>
               </div>
             </nav>
             <div className="body h-[85dvh] overflow-y-scroll w-[95%] mx-auto my-3 px-3 pb-4 flex flex-col gap-3">
               {
                 chatMessage.map((item, index) => (
                   <div key={index} className={`flex ${item.sender === "self" ? "justify-end" : "justify-start"}`}>
-                    <div className={`flex py-2 px-3 max-w-[85%] md:max-w-[45%] lg:max-w-[70%] xl:max-w-[45%]  ${item.sender === "self" ? "bg-purple-700 text-white justify-end rounded-lg" :
-                      "justify-start bg-gray-400 rounded-lg"}`}>
+                    <div className={`flex py-2 px-3 max-w-[85%] md:max-w-[45%] lg:max-w-[70%] xl:max-w-[45%]  ${item.sender === "self" ? "bg-violet-700 text-white justify-end rounded-lg" :
+                      "justify-start bg-gray-300 rounded-lg"}`}>
                       {item.message}
                     </div>
                   </div>
@@ -141,7 +141,7 @@ const ChatSidebar = () => {
             {/* input section */}
             <section className="absolute h-15 w-[95%] left-2 ml-auto xl:left-35 bottom-1 flex items-center gap-2 lg:gap-4">
               <input type="text" className="w-200 h-12 outline-none border-2 
-              focus:border-3 focus:border-purple-700 focus:shadow-lg border-gray-700 rounded-lg px-5"
+              focus:border-3 focus:border-violet-700 focus:shadow-lg border-gray-700 rounded-lg px-5"
                 placeholder="Enter your message....." />
               <div className="lg:h-9 lg:w-9 h-18 w-18 md:h-13 md:w-13 text-gray-700"><SendHorizontal className="h-full w-full" /></div>
             </section>
