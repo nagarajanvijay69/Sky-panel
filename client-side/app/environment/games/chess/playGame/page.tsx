@@ -40,12 +40,12 @@ const PlayChess = () => {
                 {row.map((square, j) => {
                   return <div key={j} className={`w-12  h-12  md:w-15 md:h-15  ${(i + j) % 2 ? 'bg-violet-400' : 'bg-gray-100'}`}>
                     <div className="flex justify-center items-center h-full w-full">
-                      {square && (square.type == 'p' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-pawn.png' : '/black-pawn.png'}`} className='p-1' draggable={true} /> </div>)}
-                      {square && (square.type == 'r' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-rook.png' : '/black-rook.png'}`} className='p-1' /> </div>)}
-                      {square && (square.type == 'n' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-knight.png' : '/black-knight.png'}`} className='p-1' /> </div>)}
-                      {square && (square.type == 'b' && <div className='size-full cursor-pointer flex items-center justify-center'>  <img src={`${square.color === 'w' ? '/white-bishop.png' : '/black-bishop.png'}`} className='p-1' /> </div>)}
-                      {square && (square.type == 'k' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-king.png' : '/black-king.png'}`} className='p-1' /> </div>)}
-                      {square && (square.type == 'q' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-queen.png' : '/black-queen.png'}`} className='p-1' /> </div>)}
+                      {square && (square.type == 'p' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-pawn.png' : '/black-pawn.png'}`} className='' /> </div>)}
+                      {square && (square.type == 'r' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-rook.png' : '/black-rook.png'}`} className='' /> </div>)}
+                      {square && (square.type == 'n' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-knight.png' : '/black-knight.png'}`} className='' /> </div>)}
+                      {square && (square.type == 'b' && <div className='size-full cursor-pointer flex items-center justify-center'>  <img src={`${square.color === 'w' ? '/white-bishop.png' : '/black-bishop.png'}`} className='' /> </div>)}
+                      {square && (square.type == 'k' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-king.png' : '/black-king.png'}`} className='' /> </div>)}
+                      {square && (square.type == 'q' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-queen.png' : '/black-queen.png'}`} className='' /> </div>)}
                     </div>
                   </div>
                 })}

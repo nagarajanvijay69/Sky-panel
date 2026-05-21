@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 const RandomGame = () => {
   const router = useRouter();
   return <>
-    <div className="min-h-dvh bg-[url('/chess-mb.png')] md:bg-[url('/chess-lg.png')] bg-cover flex justify-center pt-24 md:pt-14">
+    <div className="min-h-dvh bg-[url('/chess-mb.png')] md:bg-[url('/chess-lg.png')] h-dvh flex bg-cover flex items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="bg-gray-100 rounded-full p-3 border shadow-xl w-min">
           <Users height={40} width={40} className="text-violet-800" />

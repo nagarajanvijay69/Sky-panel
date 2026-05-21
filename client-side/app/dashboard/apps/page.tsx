@@ -10,9 +10,9 @@ const app = () => {
      return <>
           <div className="w-[97%] mx-auto py-5 pb-25">
                <div className="">
-                    <div className="heading text-xl font-semibold mb-3">All Applications</div>
+                    <div className="heading text-xl font-semibold mt-2">All Applications</div>
                     <div className="apps  w-[97%] mx-auto">
-                         <div className="gen my-6">
+                         <div className="gen mt-3 mb-6">
                               <div className="text-gray-700">General</div>
                               <div className="flex my-3 gap-3">
                                    <div className="bg-white w-33 h-33 rounded-xl">

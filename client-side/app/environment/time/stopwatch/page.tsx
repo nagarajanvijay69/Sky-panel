@@ -1,13 +1,12 @@
 'use client'
 
 import { useRef, useState } from "react";
-import { Sun, Moon, Clock, } from "lucide-react";
+import { Sun, Moon, Clock, Play, Square, RotateCw, Pause, Timer, Hourglass, AlarmClock, } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 
 const Stopwatch = () => {
 
-   const [dark, setDark] = useState(false);
    const router = useRouter();
    const [time, setTime] = useState(0);
    const start = useRef<any>(null);
@@ -54,35 +53,43 @@ const Stopwatch = () => {
 
    return <>
       <div className="w-[97%] mx-auto pt-10">
-         <div className={`w-[90%] mx-auto h-[80dvh] text-white ${dark ? 'bg-gray-800' : 'bg-purple-900'} 
-         border-2 shadow-lg rounded-lg flex flex-col justify-between`}>
-            <div className="one flex justify-between mx-5 mt-5">
-               <div className="opacity-0">
-                  .
-               </div>
-               <div className="theme flex gap-2">
-                  <div className="border-white text-white  border-2 rounded-2xl p-2 cursor-pointer" onClick={() => router.push('/environment/time/clock')}>
-                     <Clock height={32} width={32} />
-                  </div>
-                  {
-                     dark ?
-                        <div className="border-white text-white  border-2 rounded-2xl p-2 cursor-pointer" onClick={() => setDark(false)}>
-                           <Moon height={32} width={32} />
-                        </div> : <div className="border-white text-white  border-2 rounded-2xl p-2 cursor-pointer" onClick={() => setDark(true)}>
-                           <Sun height={32} width={32} />
-                        </div>
-                  }
+         <div className={`w-[90%] mx-auto h-[80dvh] text-white border-violet-900/70 bg-purple-900/40 
+         border-2 shadow-lg rounded-lg flex flex-col`}>
+            <div className="w-full flex justify-between p-5">
+               <div className="opacity-0">.</div>
+               <div className="text-gray-300 w-min border-2 border-gray-500 shadow-2xl rounded-2xl p-2 cursor-pointer" onClick={() => router.push('/environment/time/clock')}>
+                  <Timer height={32} width={32} />
                </div>
             </div>
-            <div className="flex items-center flex-col">
-               <div className={`two my-10 text-2xl md:text-4xl lg:text-6xl font-bold px-13 md:px-20 lg:px-30 py-10 md:py-15 lg:py-20 mx-5 lg:mx-17 xl:mx-20 rounded-full border-2 ${dark ? 'border-gray-500' : 'border-white'} shadow-lg`}>
+            <div className="h-full flex flex-col justify-center pb-10 md:pb-auto">
+               <div className="flex flex-col w-full items-center">
+                  <div className="rounded-full bg-violet-800 p-3 border border-violet-950 shadow-2xl"><AlarmClock height={40} width={40} /></div>
+                  <p className="text-4xl font-semibold mt-2">Stopwatch</p>
+                  <p className="text-gray-300">Measure your Time</p>
+               </div>
+               <div className="flex items-center justify-center flex-col">
+               <div className={`two my-10 flex justify-center items-center text-2xl bg-purple-900/20 md:text-4xl lg:text-6xl font-bold
+                   px-13 md:px-20 lg:px-30 py- m8d:py-15 lg:py-15 mx-5 lg:mx-17 xl:mx-20 rounded-full border-2 border-violet-900/70 shadow-lg`}>
                   {format(time)}
                </div>
                <div className="btns text-lg flex gap-2 font-semibold">
-                  <button className="bg-green-700 w-20 md:w-25 py-2 rounded-xl border-2 border-white cursor-pointer" onClick={startWatch}>{isStop ? "Resume" : "Start"}</button>
-                  <button className="bg-yellow-700 w-20 md:w-25 py-2 rounded-xl border-2 border-white cursor-pointer" onClick={stop}>Stop</button>
-                  <button className="bg-red-700 w-20 md:w-25 py-2 rounded-xl border-2 border-white cursor-pointer" onClick={reset}>Reset</button>
+                  <button className="bg-gradient-to-r from-green-900 via-green-700 to-green-950 flex px-5 gap-2 justify-center items-center py-2 rounded-3xl border-2
+                   border-green-900 cursor-pointer shadow-2xl" onClick={startWatch}>
+                     <div className="hidden md:block">
+                        <Play />
+                     </div><p>{isStop ? "Resume" : "Start"}</p></button>
+                  <button className="bg-gradient-to-r from-yellow-600 via-yellow-800 to-yellow-500 px-5 flex justify-center items-center gap-2 py-2 rounded-3xl border-2
+                   border-yellow-900 shadow-2xl cursor-pointer" onClick={stop}>
+                     <div className="hidden md:block"><Square /></div>
+                     <p>Stop</p>
+                  </button>
+                  <button className="bg-gradient-to-r from-red-900 px-5 via-red-700 to-red-950 flex justify-center items-center gap-2 py-2 rounded-3xl border-2
+                   border-red-900 shadow-2xl cursor-pointer" onClick={reset}>
+                     <div className="hidden md:block"><RotateCw /></div>
+                     <p>Reset</p>
+                  </button>
                </div>
+            </div>
             </div>
             <div className="three">
                <div className="text-center text-lg md:text-xl lg:text-2xl font-semibold mb-7"></div>

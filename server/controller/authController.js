@@ -1,13 +1,10 @@
-const express = require('express');
-const auth = express.Router();
-const { userModel } = require('../mongoose/model/model');
+const { userModel } = require("../model/userModel");
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-// Signup
 
-auth.post('/signup', async (req, res) => {
+exports.signin =  async (req, res) => {
      const { username, email, password } = req.body;
      if (!username || !email || !password) return res.status(200).json({ success: false, message: "All fields are required" });
      let pre = await userModel.findOne({ email });
@@ -35,12 +32,10 @@ auth.post('/signup', async (req, res) => {
                message: e.message
           });
      }
-});
+}
 
 
-// login
-
-auth.get('/login', async (req, res) => {
+exports.login = async (req, res) => {
      const { email, password } = req.query;
      console.log(email, passport);
 
@@ -73,26 +68,26 @@ auth.get('/login', async (req, res) => {
                message: e.message
           });
      }
-});
+}
 
-// logout
 
-auth.get('/logout', async (req, res) => {
+exports.logout =  async (req, res) => {
      try {
           res.clearCookie('ticket');
           res.status(200).json({ success: true, message: "logged Out Successfully", user: {} });
      } catch (e) {
           res.status(200).json({ success: false, message: e.message });
      }
-});
+}
 
-// google auth
-
-auth.get('/google', passport.authenticate("google", {
+exports.googleAuth = passport.authenticate("google", {
      session: false,
      scope: ["profile", "email"],
      failureRedirect: '/redirect'
-}), async (req, res) => {
+});
+
+
+exports.googleSignup = async (req, res) => {
      console.log("bug", req);
 
      try {
@@ -107,11 +102,9 @@ auth.get('/google', passport.authenticate("google", {
      } catch (e) {
           res.status(200).json({ success: false, message: e.message });
      }
-});
+}
 
-// get token 
-
-auth.get('/token', async (req, res) => {
+exports.getToken =  async (req, res) => {
      const ticket = req.cookies.ticket;
      if (!ticket) return res.status(200).json({ success: false, message: "Login required" });
 
@@ -124,16 +117,8 @@ auth.get('/token', async (req, res) => {
      } catch (error) {
           res.status(200).json({ success: false, message: e.message });
      }
-});
+}
 
-
-// google failureRedirect
-
-auth.get('/redirect', async (req, res) => {
+exports.failureRedirect = async (req, res) => {
      res.redirect(`${process.env.FRONTEND_URI}/auth/login`);
-});
-
-
-
-
-module.exports = auth;
+}

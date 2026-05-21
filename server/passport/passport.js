@@ -1,6 +1,6 @@
 const google = require('passport-google-oauth20').Strategy;
 const passport = require('passport');
-const { userModel } = require('../mongoose/model/model')
+const { userModel } = require('../model/userModel')
 
 passport.use(new google({
      clientID: process.env.CLIENT_ID,
