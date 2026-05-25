@@ -53,7 +53,7 @@ const initialState: State = {
           weatherCity: "",
           username: "",
           theme: 'light',
-          login: false,
+          login: true,
           conversation: [],
           message: [],
           last_seen: new Date().toString(),

@@ -73,18 +73,18 @@ const Stopwatch = () => {
                   {format(time)}
                </div>
                <div className="btns text-lg flex gap-2 font-semibold">
-                  <button className="bg-gradient-to-r from-green-900 via-green-700 to-green-950 flex px-5 gap-2 justify-center items-center py-2 rounded-3xl border-2
-                   border-green-900 cursor-pointer shadow-2xl" onClick={startWatch}>
+                  <button className="bg-gradient-to-r from-violet-600 via-purple-900 to-violet-700 flex px-5 gap-2 justify-center items-center py-2 rounded-3xl border-2
+                   border-violet-500 cursor-pointer shadow-2xl" onClick={startWatch}>
                      <div className="hidden md:block">
                         <Play />
                      </div><p>{isStop ? "Resume" : "Start"}</p></button>
-                  <button className="bg-gradient-to-r from-yellow-600 via-yellow-800 to-yellow-500 px-5 flex justify-center items-center gap-2 py-2 rounded-3xl border-2
-                   border-yellow-900 shadow-2xl cursor-pointer" onClick={stop}>
+                  <button className="bg-gradient-to-r from-violet-700 via-purple-900 to-violet-800 flex px-5 gap-2 justify-center items-center py-2 rounded-3xl border-2
+                   border-violet-500 cursor-pointer shadow-2xl" onClick={stop}>
                      <div className="hidden md:block"><Square /></div>
                      <p>Stop</p>
                   </button>
-                  <button className="bg-gradient-to-r from-red-900 px-5 via-red-700 to-red-950 flex justify-center items-center gap-2 py-2 rounded-3xl border-2
-                   border-red-900 shadow-2xl cursor-pointer" onClick={reset}>
+                  <button className="bg-gradient-to-r from-purple-800 via-violet-900 to-purple-800 flex px-5 gap-2 justify-center items-center py-2 rounded-3xl border-2
+                   border-violet-500 cursor-pointer shadow-2xl" onClick={reset}>
                      <div className="hidden md:block"><RotateCw /></div>
                      <p>Reset</p>
                   </button>
