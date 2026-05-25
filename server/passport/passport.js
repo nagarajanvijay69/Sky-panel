@@ -1,6 +1,6 @@
 const google = require('passport-google-oauth20').Strategy;
 const passport = require('passport');
-const { userModel } = require('../model/userModel')
+const userModel = require('../model/userModel');
 
 passport.use(new google({
      clientID: process.env.CLIENT_ID,
@@ -20,6 +20,6 @@ passport.use(new google({
                }
                return done(null, user);
           } catch (e) {
-               return done(err, null);
+               return done(e, null);
           }
      }));

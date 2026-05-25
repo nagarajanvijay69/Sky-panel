@@ -1,14 +1,21 @@
 // import require packages
 const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-const auth = require('./routes/authRoute');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const passport = require('passport');
-const weather = require('./routes/weatherRoute');
-require('./passport/passport');
+require('dotenv').config();
+const cookieParser = require('cookie-parser');
 const http = require("http");
+const { Server } = require('socket.io');
+require('./passport/passport');
+const frontendUri = process.env.FRONTEND_URI;
+const  chatSocket  = require('./socket/chatSocket')
+
+
+const authRoute = require('./routes/authRoute');
+const weatherRoute = require('./routes/weatherRoute');
+const chatRoute = require('./routes/chatRoute');
+const chatbotRoute = require('./routes/chatbotRoute');
 
 // server setup
 const app = express();
@@ -18,26 +25,46 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(cors({
      origin: [
-          "http://localhost:3000",
+          frontendUri,
      ],
      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
      credentials: true
 }));
 
+
+// socket.io setup
+const io = new Server(server, {
+     cors: {
+          origin: frontendUri,
+          methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+     }
+});
+
+const chat = io.of("/socket/chat");
+chatSocket(chat);
+
+
+
 //auth router
-app.use('/', auth);
+app.use('/', authRoute);
 
 //weather router
-app.use('/', weather);
+app.use('/', weatherRoute);
+
+//chat router
+app.use('/chat', chatRoute);
+
+//chatbot router
+app.use('/chatbot', chatbotRoute);
 
 
 //mongoDB connect
 mongoose.connect('mongodb://localhost:27017/skyPanel')
-.then(()=> console.log('database connected'))
-.catch((e)=> console.log('error: ', e));
+     .then(() => console.log('database connected'))
+     .catch((e) => console.log('error: ', e));
 
 // port
-app.listen(8000, () => {
+server.listen(8000, () => {
      console.log(`server is running on the port ${process.env.BACKEND_PORT}`);
 })
 

@@ -4,7 +4,7 @@ import "./globals.css";
 import { Provider } from "react-redux";
 import store, { initUser, setLogIn } from "./store/store"
 import axios from "axios";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import outfit from "./font";
 
@@ -16,15 +16,15 @@ export default function RootLayout({ children }: Readonly<{
 
   const verifyToken = async () => {
     let res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/token`, { withCredentials: true });
-    
     if (res.data.success) {
       store.dispatch(initUser(res.data.user));
       store.dispatch(setLogIn(true));
     };
   }
-  // useLayoutEffect(() => {
-  //   verifyToken();
-  // },[]);
+
+  useEffect(() => {
+    verifyToken();
+  }, []);
 
 
 

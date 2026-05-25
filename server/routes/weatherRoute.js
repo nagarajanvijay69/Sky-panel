@@ -1,12 +1,12 @@
 const express = require('express');
-const weather = express.Router();
+const weatherRoute = express.Router();
 const { setWeatherCity, getWeather } = require('../controller/weatherController')
 
 // get weather
-weather.get('/weather/:city',getWeather);
+weatherRoute.get('/weather/:city',getWeather);
 
 // set weather to user
-weather.post('/setCity', setWeatherCity);
+weatherRoute.post('/setCity', setWeatherCity);
 
 
-module.exports = weather;
+module.exports = weatherRoute;

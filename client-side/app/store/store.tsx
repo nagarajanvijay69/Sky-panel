@@ -6,11 +6,44 @@ interface user {
      username: String,
      theme: "light" | "dark",
      login: Boolean,
-     weatherCity: String
+     weatherCity: String,
+     conversation: conversationType[],
+     message: messageType[],
+     last_seen: string,
+     isOnline: boolean,
+     profilePic: string,
+     font_family: string,
+     chess_total: number,
+     chess_win: number,
+     chess_draw: number,
+     tic_total: number,
+     tic_win: number,
+     tic_draw: number,
+     chatbot_message: number
 }
 
 interface State {
      value: user
+}
+
+export type messageType = {
+     _id: string,
+     chat_id: string,
+     sender_id: string,
+     message: string,
+     createdAt: string,
+     updatedAt: string
+}
+
+export type conversationType = {
+     _id: string,
+     participants: [string, string],
+     createdAt: Date,
+     updatedAt: Date,
+     unread_message: number,
+     last_message: string,
+     username: string,
+     receiverId: string
 }
 
 const initialState: State = {
@@ -20,7 +53,21 @@ const initialState: State = {
           weatherCity: "",
           username: "",
           theme: 'light',
-          login: true
+          login: false,
+          conversation: [],
+          message: [],
+          last_seen: new Date().toString(),
+          isOnline: false,
+          profilePic: "",
+          font_family: "",
+          chess_total: 0,
+          chess_win: 0,
+          chess_draw: 0,
+          tic_total: 0,
+          tic_win: 0,
+          tic_draw: 0,
+          chatbot_message: 0
+
      }
 }
 
@@ -36,6 +83,18 @@ const slice = createSlice({
           },
           setLogIn: (state, action: PayloadAction<Boolean>) => {
                state.value.login = action.payload;
+          },
+          setConversation: (state, action: PayloadAction<conversationType[]>) => {
+               state.value.conversation = action.payload;
+          },
+          initMessage: (state, action: PayloadAction<messageType[]>) => {
+               state.value.message = action.payload;
+          },
+          addMessage: (state, action: PayloadAction<messageType>) => {
+               state.value.message.push(action.payload);
+          },
+          clearMessage: (state) => {
+               state.value.message = [];
           }
      }
 });
@@ -49,4 +108,4 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export default store;
-export const { initUser, setTheme, setLogIn } = slice.actions;
+export const { initUser, setTheme, setLogIn, setConversation, initMessage, addMessage, clearMessage } = slice.actions;

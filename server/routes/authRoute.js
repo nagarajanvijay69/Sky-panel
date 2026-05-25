@@ -1,28 +1,28 @@
 const express = require('express');
 const { signin, login, logout, googleAuth, googleSignup, getToken, failureRedirect } = require('../controller/authController');
-const auth = express.Router();
+const authRoute = express.Router();
 
 // Signup
-auth.post('/signup', signin);
+authRoute.post('/signup', signin);
 
 
 // login
-auth.get('/login', login);
+authRoute.get('/login', login);
 
 // logout
-auth.get('/logout', logout);
+authRoute.get('/logout', logout);
 
 // google auth
-auth.get('/google', googleAuth, googleSignup);
+authRoute.get('/google', googleAuth, googleSignup);
 
 // get token 
-auth.get('/token', getToken);
+authRoute.get('/token', getToken);
 
 
 // google failureRedirect
-auth.get('/redirect', failureRedirect);
+authRoute.get('/redirect', failureRedirect);
 
 
 
 
-module.exports = auth;
+module.exports = authRoute;
