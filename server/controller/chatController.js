@@ -108,7 +108,7 @@ exports.getConversation = async (req, res) => {
                 return {
                     ...item.toObject(),
                     username: await getUserName(id),
-                    receriver_id: id.toString()
+                    receiver_id: id.toString()
                 }
             })
         )
@@ -147,22 +147,39 @@ exports.getMessage = async (req, res) => {
     }
 }
 
-exports.searchUser = async () => {
-  const {email} = req.body;
-  if(!email) return res.status(200).json({
-    success: false,
-    message: "Email or username reuired"
-  });
+exports.searchUser = async (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(200).json({
+        success: false,
+        message: "Email or username reuired"
+    });
 
-  const user = await userModel.findOne({email});
-  const userData = {
-    _id: user._id,
-    username: user.username,
-    email: user.email
-  }
+    try {
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            console.log("user not found");
+            return res.status(200).json({
+                success: false,
+                message: "User not found"
+            });
+        }
 
-  res.status(200).json({
-    success: true,
-    userData
-  })
+        const userData = [{
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            profilePic: user.profilePic
+        }]
+        
+        res.status(200).json({
+            success: true,
+            userData
+        })
+
+    } catch (e) {
+         res.status(200).json({
+            success: false,
+            error: e.message
+        })
+    }
 }

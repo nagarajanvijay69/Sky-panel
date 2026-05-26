@@ -4,27 +4,40 @@ import { RootState } from "@/app/store/store";
 import axios from "axios";
 import { ArrowLeft, ChevronRight, Mail, Search, UserSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addSearchUser, clearSearchUser } from "@/app/store/store"
+import socket from "@/app/socket"
+
 
 const AddUser = () => {
     const router = useRouter();
-    const userId = useSelector((state: RootState) => state.user.value._id) || "6a0ff8f4c817f59038d2d410" ;
-    const [userData, setUserData] = useState([]);
+    const userId = useSelector((state: RootState) => state.user.value._id);
+    const [receiverId, setReceiverId] = useState("");
+    const dispatch = useDispatch();
+    const userData = useSelector((state: RootState) => state.user.value.searchUser) || [];
+    console.log("user data", userData)
 
     const [email, setEmail] = useState("");
+    const [success, setSuccess] = useState(false);
 
-    const searchUser = async() => {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URI}/chat/searchUser`, {email});
-        setUserData(response.data.users);
+    const searchUser = async () => {
+        if (!email.trim()) return;
+        dispatch(clearSearchUser());
+        setSuccess(true);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URI}/chat/searchUser`, { email });
+        if (response.data.success) {
+            dispatch(addSearchUser(response.data.userData));
+        }
     }
 
+
     const createConversation = async () => {
-
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URI}/chat/createConversation`,
-            { senderId: userId, receiverId: "6a0eb1a24d5c6a69e7da4e85", last_message: "" });
-
-            console.log(res);
+        const data = {
+            senderId: userId, receiverId: userData[0]._id, last_message: ""
+        }
+        socket.emit("create_conversation", data);
+        router.push("/environment/chat");
     }
 
     return <>
@@ -46,29 +59,40 @@ const AddUser = () => {
                     <div className="flex bg-violet-700 text-white px-2 h-12 rounded-lg items-center gap-1 border border-violet-700 shadow-lg mt-5">
                         <div className="bg-violet-800 p-1 rounded-md shadow"><Mail width={28} height={28} /></div>
                         <input type="search" className="w-full h-full text-gray-200 outline-none px-1 pl-3" placeholder="Enter email address"
-                            onChange={(e) => setEmail(e.target.value)} value={email} />
-                        <div className="bg-violet-900 p-1 rounded-md shadow cursor-pointer"><Search width={27} height={27} /></div>
+                            onChange={(e) => setEmail(e.target.value)} value={email} onKeyDown={(k) => console.log(k.key)} />
+                        <div className="bg-violet-900 p-1 rounded-md shadow cursor-pointer" onClick={searchUser}><Search width={27} height={27} /></div>
                     </div>
                     <div className="text-gray-200 mt-5">
-                        <p className="text-lg font-semibold text-white">Search Results</p>
+                        {success &&
+                            <p className="text-lg font-semibold text-white">Search Results</p>
+                        }
                         <div className="mt-2 flex flex-col gap-2 h-[36dvh]">
-                            {userData[0] ? (
-                                userData.map((item, index) => (
-                                    <div key={index} className="h-14 border border-violet-600  shadow-xl flex items-center px-2 rounded-lg gap-3 md:gap-5">
-                                        {/* <div className="bg-violet-500 rounded-full flex h-11 w-11 justify-center items-center">{item.profilePic}</div> */}
-                                        <div className="mr-auto">
-                                            {/* <p className="">{item.name}</p> */}
-                                            {/* <p className="text-sm text-gray-300 max-w-50 md:max-w-98 md:overflow-none
-                                               overflow-hidden">{item.email}</p> */}
-                                        </div>
-                                        <div className="mr-3 flex cursor-pointer" onClick={createConversation}>
-                                            <p className="hidden md:block">Start Chat</p>
-                                            <div><ChevronRight /></div>
-                                        </div>
-                                    </div>
-                                ))) :
-                                <p className="pl-5">No user Found</p>
-                            }
+                            <div>
+                                <>
+                                    {userData[0] ? (
+                                        userData.map((item, i) => (
+                                            <div key={i} className="h-14 border border-violet-600  shadow-xl flex items-center px-2 rounded-lg gap-3 md:gap-5">
+                                                <div className="bg-violet-500 rounded-full flex h-11 w-11 justify-center items-center">{item.profilePic}</div>
+                                                <div className="mr-auto">
+                                                    <p className="">{item.username}</p>
+                                                    <p className="text-sm text-gray-300 max-w-50 md:max-w-98 md:overflow-none
+                                               overflow-hidden">{item.email}</p>
+                                                </div>
+                                                <div className="mr-3 flex cursor-pointer" onClick={createConversation}>
+                                                    <p className="hidden md:block">Start Chat</p>
+                                                    <div><ChevronRight /></div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )
+                                        :
+
+                                        <>
+                                            {success && <p className="pl-5">No user Found</p>}
+                                        </>
+                                    }
+                                </>
+                            </div>
                         </div>
                         <hr className="mt-5 text-violet-500" />
                         <div className="flex gap-2 mt-5 justify-center items-center">
@@ -81,7 +105,7 @@ const AddUser = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     </>
 }
 

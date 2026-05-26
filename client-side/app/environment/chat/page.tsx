@@ -5,11 +5,17 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import socket from "@/app/socket.js";
 import { useRouter } from "next/navigation";
-import { RootState } from "@/app/store/store";
+import { addConversation, RootState } from "@/app/store/store";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setConversation, initMessage, addMessage, clearMessage } from "@/app/store/store";
 import { messageType, conversationType } from "@/app/store/store";
+
+type conversationType2 = {
+  senderId: string,
+  receiverId: string,
+  lastMessage: string
+}
 
 
 const ChatSidebar = () => {
@@ -43,24 +49,28 @@ const ChatSidebar = () => {
 
   useEffect(() => {
     socket.emit("init", userId);
-    console.log("socket initial emit");
+    // console.log("socket initial emit");
   }, []);
 
 
 
 
   const addChatMessage = async () => {
-    console.log("Function called", userMessage)
+    // console.log("Function called", userMessage)
     if (!userMessage.trim()) return;
+
+    // console.log("selected user", selectedUser);
+
     const mes = {
       _id: "",
-      chat_id: conversationId,
-      sender_id: userId,
+      chatId: conversationId,
+      senderId: userId,
       message: userMessage,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      receiverId: selectedUser?.receiverId
+      receiverId: selectedUser?.receiver_id
     }
+
 
     socket.emit("send_message", mes);
     setUserMessage("");
@@ -74,13 +84,25 @@ const ChatSidebar = () => {
   useEffect(() => {
 
     const handleMessage = (data: messageType) => {
-      console.log("message added", data)
+      // console.log("message added", data)
       dispatch(addMessage(data));
     }
     socket.on("new_message_added", handleMessage)
 
     return () => {
       socket.off("new_message_added", handleMessage);
+    }
+  }, []);
+
+  useEffect(() => {
+
+    const handleConversation = (data: conversationType) => {
+      dispatch(addConversation(data))
+    }
+    socket.on("new_conversation_added", handleConversation)
+
+    return () => {
+      socket.off("new_conversation_added", handleConversation);
     }
   }, []);
 
