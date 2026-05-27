@@ -59,7 +59,7 @@ app.use('/chatbot', chatbotRoute);
 
 
 //mongoDB connect
-mongoose.connect('mongodb://localhost:27017/skyPanel')
+mongoose.connect(`${process.env.MONGODB_URI}`)
      .then(() => console.log('database connected'))
      .catch((e) => console.log('error: ', e));
 
