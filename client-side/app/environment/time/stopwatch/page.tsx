@@ -69,7 +69,7 @@ const Stopwatch = () => {
                </div>
                <div className="flex items-center justify-center flex-col">
                <div className={`two my-10 flex justify-center items-center text-2xl bg-purple-900/20 md:text-4xl lg:text-6xl font-bold
-                   px-13 md:px-20 lg:px-30 py- m8d:py-15 lg:py-15 mx-5 lg:mx-17 xl:mx-20 rounded-full border-2 border-violet-900/70 shadow-lg`}>
+                   px-13 md:px-20 lg:px-30 py- m8d:py-15 h-20 lg:h-auto lg:py-15 mx-5 lg:mx-17 xl:mx-20 rounded-full border-2 border-violet-900/70 shadow-lg`}>
                   {format(time)}
                </div>
                <div className="btns text-lg flex gap-2 font-semibold">

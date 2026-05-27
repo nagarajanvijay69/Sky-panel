@@ -95,7 +95,7 @@ const slice = createSlice({
           setConversation: (state, action: PayloadAction<conversationType[]>) => {
                state.value.conversation = action.payload;
           },
-          addConversation: (state, action: PayloadAction<conversationType>) =>{
+          addConversation: (state, action: PayloadAction<conversationType>) => {
                state.value.conversation.push(action.payload)
           },
           initMessage: (state, action: PayloadAction<messageType[]>) => {
@@ -103,6 +103,18 @@ const slice = createSlice({
           },
           addMessage: (state, action: PayloadAction<messageType>) => {
                state.value.message.push(action.payload);
+               // adding last message logic
+               const conversationId = action.payload.chat_id
+               const data = state.value.conversation.map((item) => {
+                    if (item._id.toString() === conversationId.toString()) {
+                         return {
+                              ...item,
+                              last_message: action.payload.message
+                         }
+                    }
+                    return item
+               });
+               state.value.conversation = data
           },
           clearMessage: (state) => {
                state.value.message = [];

@@ -211,7 +211,11 @@ const ChatSidebar = () => {
             <section className="absolute h-15 w-[95%] left-2 ml-auto xl:left-35 bottom-1 flex items-center gap-2 lg:gap-4">
               <input type="text" className="w-200 h-12 outline-none border-2 
               focus:border-3 focus:border-violet-700 focus:shadow-lg border-gray-700 rounded-lg px-5"
-                placeholder="Enter your message....." value={userMessage} onChange={(e) => setUserMessage(e.target.value)} />
+                placeholder="Enter your message....." value={userMessage} onKeyDown={(e) =>{
+                   if(e.key == 'Enter'){
+                    addChatMessage();
+                   }
+                }} onChange={(e) => setUserMessage(e.target.value)} />
               <div className="lg:h-9 lg:w-9 h-18 w-18 md:h-13 md:w-13 text-gray-700 cursor-pointer"
                 onClick={addChatMessage}><SendHorizontal className="h-full w-full" /></div>
             </section>

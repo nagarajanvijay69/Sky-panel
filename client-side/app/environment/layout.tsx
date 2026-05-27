@@ -5,7 +5,6 @@ import { initUser, RootState, setLogIn } from "../store/store";
 import { useRouter } from "next/navigation";
 import { useLayoutEffect, useRef, useState } from "react";
 import axios from "axios";
-import { ArrowLeft } from "lucide-react";
 
 const layout = ({ children }: Readonly<{
      children: React.ReactNode;

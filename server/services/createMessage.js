@@ -1,4 +1,5 @@
 const messageModel = require('../model/messageModel');
+const conversationModel = require('../model/conversationModel')
 
 const createMessage = async (chatId, senderId, message) => {
     const newMessage = new messageModel({
@@ -7,6 +8,15 @@ const createMessage = async (chatId, senderId, message) => {
         message
     });
     await newMessage.save();
+
+    try {
+        await conversationModel.findByIdAndUpdate(chatId, {
+            last_message: message
+        });
+    } catch (e) {
+        console.log(e.message);
+    }
+
     return newMessage;
 }
 
