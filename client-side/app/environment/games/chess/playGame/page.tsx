@@ -1,16 +1,42 @@
 'use client'
 
-import { BLACK, Chess } from 'chess.js'
+import { BLACK, Chess, Square } from 'chess.js'
 import { useState } from 'react'
-import { ChessBishop, ChessKing, ChessKnight, ChessPawn, ChessQueen, ChessRook, EllipsisVertical, Flag, Handshake, User, X } from 'lucide-react'
+import { Flag, Handshake, User } from 'lucide-react'
 
 const PlayChess = () => {
   const [chess, serChess] = useState(new Chess())
-  const [color, setColor] = useState<'white' | 'black'>('white');
+  const [color, setColor] = useState<'white' | 'black'>('black');
   const [board, setBoard] = useState(
     color === 'white' ? chess.board() : chess.board().reverse().map((item) => [...item].reverse())
   );
-  const [show, setShow] = useState(false);
+
+  const [legalMoves, setLegalMoves] = useState<Square[] | null>(null);
+  const [selectedSquare, setSelectedSquare] = useState<string | null>(null)
+
+  const getSquareName = (i: number, j: number) => {
+    let elements = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    if (color === 'black') return `${elements[7 - j]}${i + 1}`
+    return `${elements[j]}${8 - i}`
+  }
+
+  const makeMove = (i: number, j: number) => {
+    const sq = getSquareName(i, j)
+    console.log(sq)
+    if (!selectedSquare) {
+      const piece = chess.get(sq as Square);
+      console.log(piece);
+      if (!piece) return
+      setSelectedSquare(sq)
+
+      const moves = chess.moves({
+        square: sq as Square,
+        verbose: true
+      })
+      setLegalMoves(moves.map((move) => move.to))
+      return;
+    }
+  }
 
 
   return (
@@ -39,7 +65,7 @@ const PlayChess = () => {
               return <div key={i} className='flex justify-center items-center'>
                 {row.map((square, j) => {
                   return <div key={j} className={`w-12  h-12  md:w-15 md:h-15  ${(i + j) % 2 ? 'bg-violet-400' : 'bg-gray-100'}`}>
-                    <div className="flex justify-center items-center h-full w-full">
+                    <div className="flex justify-center items-center h-full w-full" onClick={() => makeMove(i, j)}>
                       {square && (square.type == 'p' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-pawn.png' : '/black-pawn.png'}`} className='' /> </div>)}
                       {square && (square.type == 'r' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-rook.png' : '/black-rook.png'}`} className='' /> </div>)}
                       {square && (square.type == 'n' && <div className='size-full cursor-pointer flex items-center justify-center'> <img src={`${square.color === 'w' ? '/white-knight.png' : '/black-knight.png'}`} className='' /> </div>)}

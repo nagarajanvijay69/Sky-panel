@@ -6,7 +6,33 @@ import { useState } from "react";
 
 
 const MailPage = () => {
-  const [count, setCount] = useState(1);
+  const [mail1, setMail1] = useState("");
+  const [mail2, setMail2] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+
+  const sendMail = () => {
+    if (!mail1.trim()) return alert("Enter mail id");
+    if (!subject.trim()) return alert("Enter subject");
+    if (!message.trim()) return alert("Enter Message");
+    else {
+      const encodeSubject = encodeURIComponent(subject);
+      const encodeMessage = encodeURIComponent(message);
+      console.log(encodeMessage, encodeSubject)
+      if (!mail2.trim()) {
+        window.location.href = `mailto:${mail1}?subject=${encodeSubject}&body=${encodeMessage}`;
+      } else {
+        window.location.href = `mailto:${mail1},${mail2}?subject=${encodeSubject}&body=${encodeMessage}`;
+      }
+    }
+  }
+
+  const clearMail = () => {
+    setMail1("");
+    setMail2("");
+    setSubject("");
+    setMessage("");
+  }
 
   return <>
     <div className="bg-[url('/mail-sm.jpeg')] min-h-dvh md:bg-[url('/mail-lg.jpeg')] bg-cover">
@@ -24,11 +50,13 @@ const MailPage = () => {
             <p>To</p>
             <div className="border-violet-600 border-2 flex shadow-2xl h-14 items-center gap-2 px-3 rounded-lg">
               <div className="bg-violet-600 p-2 rounded-full"><Mail /></div>
-              <input type="text" className="outline-none w-full h-full " placeholder="Leodass@example.com" />
+              <input type="text" className="outline-none w-full h-full" value={mail1} placeholder="Leodass@example.com"
+                onChange={(e) => setMail1(e.target.value)} />
             </div>
             <div className="border-violet-600 border-2 flex shadow-2xl h-14 items-center gap-2 px-3 rounded-lg mt-1">
               <div className="bg-violet-600 p-2 rounded-full"><Mail /></div>
-              <input type="text" className="outline-none w-full h-full " placeholder="Parthiban@example.com" />
+              <input type="text" className="outline-none w-full h-full" value={mail2} placeholder="Parthiban@example.com"
+                onChange={(e) => setMail2(e.target.value)} />
             </div>
           </div>
           {/* subject */}
@@ -36,24 +64,27 @@ const MailPage = () => {
             <p>Subject</p>
             <div className="border-violet-600 border-2 flex shadow-2xl h-14 items-center gap-2 px-3 rounded-lg mt-1">
               <div className="bg-violet-600 p-2 rounded-full"><Tag /></div>
-              <input type="text" className="outline-none w-full h-full " placeholder="Enter subject" />
+              <input type="text" className="outline-none w-full h-full" value={subject} placeholder="Enter subject"
+                onChange={(e) => setSubject(e.target.value)} />
             </div>
           </div>
           <div className="text-white mb-3">
             <p>Message</p>
             <div className="border-violet-600 border-2 flex shadow-2xl h-28 gap-2 px-3 rounded-lg mt-1">
               <div className="bg-violet-600 p-2 rounded-full h-10 w-10 flex justify-center items-center mt-2"><Pen /></div>
-              <textarea className="outline-none resize-none w-full h-full mt-3" placeholder="Enter your message here..."></ textarea>
+              <textarea className="outline-none resize-none w-full h-[85%] mt-3 no-scrollbar" value={message} placeholder="Enter your message here..."
+                onChange={(e) => setMessage(e.target.value)}></ textarea>
             </div>
           </div>
           {/* buttons */}
           <div className="flex w-full justify-center gap-5 mt-10">
             <button className="flex bg-gradient-to-r from-violet-500 via-violet-600 p-2 gap-1 rounded-lg
-             shadow-lg to-purple-800 text-white cursor-pointer">
+             shadow-lg to-purple-800 text-white cursor-pointer" onClick={sendMail}>
               <div><Send /></div>
               <p>Send Mail</p>
             </button>
-            <button className="flex border-2 border-gray-400  rounded-lg px-3 shadow-2xl gap-1 p-2 text-white cursor-pointer">
+            <button className="flex border-2 border-gray-400  rounded-lg px-3 shadow-2xl gap-1 p-2 text-white
+             cursor-pointer" onClick={clearMail}>
               <div className="text-violet-200"><Trash /></div>
               <p>Clear</p>
             </button>

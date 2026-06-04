@@ -2,11 +2,12 @@
 
 import "./globals.css";
 import { Provider } from "react-redux";
-import store, { initUser, setLogIn } from "./store/store"
+import store, { initUser, initWeather, setLogIn } from "./store/store"
 import axios from "axios";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import outfit from "./font";
+import "highlight.js/styles/vs2015.css";
 
 export default function RootLayout({ children }: Readonly<{
   children: React.ReactNode;
@@ -19,11 +20,16 @@ export default function RootLayout({ children }: Readonly<{
     if (res.data.success) {
       store.dispatch(initUser(res.data.user));
       store.dispatch(setLogIn(true));
+      const user = store.getState();
+      const { data } = (await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/weather/${user.user.value.weatherCity}`)).data;
+      store.dispatch(initWeather(`${(Number(data.temp) - 273.15).toFixed(1)}°C`));
     };
   }
 
+
+
   useEffect(() => {
-    verifyToken();
+    verifyToken()
   }, []);
 
 

@@ -40,7 +40,7 @@ const Chess = () => {
                                    <button className="mt-3 cursor-pointer text-white bg-violet-700 w-35 px-3 py-2 text-center rounded-lg"
                                         onClick={() => router.push('/environment/games/chess/createGame')}>Initialize Game </button>
                               </div>
-                              <div className="bg-gray-100 p-5 h-65 rounded-lg flex flex-col justify-center shadow-lg">
+                              {/* <div className="bg-gray-100 p-5 h-65 rounded-lg flex flex-col justify-center shadow-lg">
                                    <div className="flex justify-between items-center">
                                         <div className="bg-violet-300 p-2 rounded"><Shield height={38} width={38} /></div>
                                         <div className="font-semibold">Random Challenge</div>
@@ -52,7 +52,7 @@ const Chess = () => {
                                    </div>
                                    <button className="mt-3 cursor-pointer text-white bg-violet-700 w-35 px-3 py-2 text-center rounded-lg"
                                         onClick={() => router.push('/environment/games/chess/randomGame')}>Start Game</button>
-                              </div>
+                              </div> */}
                               <div className="bg-gray-100 p-5 h-65 rounded-lg flex flex-col justify-center shadow-lg">
                                    <div className="flex justify-between items-center">
                                         <div className="bg-violet-300 p-2 rounded"><Merge height={38} width={38} /></div>

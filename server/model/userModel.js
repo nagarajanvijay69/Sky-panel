@@ -59,7 +59,11 @@ const userSchema = new mongoose.Schema({
           type: Number,
           default: 0
      },
-     chatbot_message: {
+     total_message: {
+          type: Number,
+          default: 0
+     },
+     total_ai_message: {
           type: Number,
           default: 0
      }

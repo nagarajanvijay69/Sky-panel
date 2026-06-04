@@ -170,16 +170,35 @@ exports.searchUser = async (req, res) => {
             email: user.email,
             profilePic: user.profilePic
         }]
-        
+
         res.status(200).json({
             success: true,
             userData
         })
 
     } catch (e) {
-         res.status(200).json({
+        res.status(200).json({
             success: false,
             error: e.message
         })
     }
+}
+
+exports.addChatCount = async (req, res) => {
+    const { userId } = req.body;
+    if (!userId) return res.status(201).json({
+        success: false,
+        message: "userId required!"
+    })
+
+    const user = await userModel.findByIdAndUpdate(userId, {
+        $inc: {
+            total_message: 1
+        }
+    }, { new: true });
+    res.status(201).json({
+        success: true,
+        message: "Message count Incremented!",
+        user
+    });
 }

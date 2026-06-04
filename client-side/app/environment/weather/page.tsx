@@ -3,7 +3,7 @@
 import { initUser, RootState, setLogIn } from '@/app/store/store'
 import axios from 'axios'
 import { Search, MapPin, Sun, Droplet, Wind, Sunrise, Sunset } from 'lucide-react'
-import { use, useLayoutEffect, useState } from 'react'
+import { use, useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import colors from '../../../Color'
 
@@ -24,10 +24,12 @@ const Weather = () => {
      const [load, setLoad] = useState(false);
      const dispatch = useDispatch();
      const [count, setCount] = useState(0);
+     const onetimeRef = useRef(false);
 
 
-     const getData = async () => {
+     const getData = async (city: String) => {
           setLoad(true);
+          console.log("c", city)
           const { data, success } = (await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/weather/${city}`)).data;
 
           if (!success) {
@@ -67,17 +69,22 @@ const Weather = () => {
 
 
      useLayoutEffect(() => {
-          getData();
-     }, []);
+          if (user._id && !onetimeRef.current) {
+               console.log(user.weatherCity)
+               getData(user.weatherCity);
+               onetimeRef.current = true;
+               console.log("One time after user")
+          }
+     });
 
      const search = () => {
           if (!city) return;
-          getData();
+          getData(city);
      }
 
 
      return <>
-          <div className="Weather pt-5 pb-10 md:bg-[url('/weather-lg.jpeg')] bg-[url('/weather-sm.jpeg')] bg-cover ">
+          <div className="Weather pt-5 pb-5 md:bg-[url('/weather-lg.jpeg')] bg-[url('/weather-sm.jpeg')] bg-cover ">
                <div className="flex gap-2 lg:mx-70 justify-center items-center">
                     <input type="search" className="outline-none border-2 text-white border-violet-500 shadow-lg rounded-xl h-12 w-[75%] md:w-[90%] px-3 lg:px-5"
                          placeholder="Search city here...." onKeyDown={(k) => {
@@ -110,7 +117,7 @@ const Weather = () => {
                          <div>{discription}</div>
                     </div>
                </div>
-               <div className="text-white flex flex-col lg:flex-row gap-2 my-10 pb-10 w-[90%] mx-auto">
+               <div className="text-white flex flex-col lg:flex-row gap-2 my-10 w-[90%] mx-auto">
                     <div className="bg-violet-900/70 border-2 border-violet-900/70 shadow-2xl h-40 w-full flex flex-col  justify-center items-center rounded-lg">
                          <div className="flex justify-center flex-col items-center gap-1">
                               <div className="icon mb-3">
@@ -148,10 +155,10 @@ const Weather = () => {
                          <div>{sunset}</div>
                     </div>
                </div>
-               <div className="summary mt-7 bg-white w-[90%] mx-auto rounded-xl py-5 px-1 lg:px-5">
+               {/* <div className="summary mt-7 bg-white w-[90%] mx-auto rounded-xl py-5 px-1 lg:px-5">
                     <p className='text-2xl font-semibold mb-2'>Today's Summary</p>
                     <p className='text-gray-800'>ai</p>
-               </div>
+               </div> */}
           </div>
      </>
 }

@@ -1,115 +1,44 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EnvNav from "../EnvNav";
 import ChatPage from "./components/ChatPage";
 import Sidebar from "./components/Sidebar";
 import Welcome from "./components/Welcome";
-
-type messageType = {
-   sender: string,
-   message: string
-}
+import { useDispatch } from "react-redux";
+import { clearSelectedChatId } from "@/app/store/store";
 
 const Chatbot = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [welcomePage, setWelcomePage] = useState(true);
   const [query, setQuery] = useState("");
-  const [chats, setChats] = useState<messageType[]>([{
-    message: "Hello",
-    sender: "user"
-  },{
-    message: "Hello, how can i assist you today? these was a good day about this app",
-    sender: "ai"
-  },{
-    message: "Nothing special how can i assist you today? these was a good day about this app.",
-    sender: "user"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok, feel free to ask me!",
-    sender: "ai"
-  },
-  {
-    message: "ok",
-    sender: "user"
-  }]);
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(clearSelectedChatId());
+    // setLoading(false)
+  }, []);
+
+
+  const [loading, setLoading] = useState(true);
+
+
 
   return <>
-    <div className="h-[100dvh] w-[100dvw] border-box overflow-hidden">
+    <div className="h-[100dvh] w-[100dvw] bg-white border-box overflow-hidden">
       <div className=""><EnvNav /></div>
       <div className="flex w-full">
         <div className={`${isSidebarOpen ? 'w-[320px]' : 'w-[60px]'} border-r shadow-lg border-gray-300
          transition-[width] duration-500 ease-in-out`}>
-          <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+          <Sidebar isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen} setWelcomePage={setWelcomePage} />
         </div>
         <div className="flex-1">
           {
-            welcomePage ? <Welcome setWelcomePage={setWelcomePage} setQuery={setQuery} query={query} isSidebarOpen={isSidebarOpen} />
-              : <ChatPage setQuery={setQuery} query={query} chats={chats} setWelcomePage={setWelcomePage} isSidebarOpen={isSidebarOpen} />
+            welcomePage ? <Welcome setWelcomePage={setWelcomePage} setQuery={setQuery} query={query}
+             isSidebarOpen={isSidebarOpen} loading={loading} setLoading={setLoading} />
+              : <ChatPage setQuery={setQuery} query={query} setWelcomePage={setWelcomePage}
+               isSidebarOpen={isSidebarOpen} loading={loading} setLoading={setLoading} />
           }
         </div>
       </div>

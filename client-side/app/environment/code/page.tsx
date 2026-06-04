@@ -6,25 +6,34 @@ import { Editor } from "@monaco-editor/react";
 import { ArrowLeft, Copy, Play } from "lucide-react";
 
 
-type CodeLang = "python" | "java" | "c" | "cpp" | "csharp";
+type CodeLang = "html" | "css" | "javascript";
 
 const Code = () => {
 
-
-    const defaultValue = {
-        python: "# Default Python code\nprint(\"Hello, World!\")",
-        java: "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}",
-        c: "#include <stdio.h>\n\nint main() {\n    printf(\"Hello, World!\");\n    return 0;\n}",
-        cpp: "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"Hello, World!\";\n    return 0;\n}",
-        cs: "using System;\n\nclass Program {\n    static void Main() {\n        Console.WriteLine(\"Hello, World!\");\n    }\n}"
-    };
-    const [language, setLanguage] = useState<CodeLang>("python");
+    const [language, setLanguage] = useState<CodeLang>("html");
+    const [html, setHtml] = useState("<h1>Hello World!</h1>");
+    const [css, setCss] = useState("h1{\n background-color: red;\n }");
+    const [js, setJs] = useState("const heading = document.getElementsByTagName('h1')[0];\nheading.onclick = () => {\n heading.style.backgroundColor = 'blue';\n}");
     const [code, setCode] = useState("");
     console.log(code);
+    const [src, setSrc] = useState("");
 
     const [isOutputPage, setIsOutputPage] = useState(false);
 
     const validateOutput = () => {
+        const template = `
+          <DOCTYPE html>
+          <html lan="en">
+             <head>
+              <style>${css}</style>
+             </head>
+             <body>
+              ${html}
+               <script>${js}</script>
+             </body>
+          </html>
+        `
+        setSrc(template);
         setIsOutputPage(true);
     }
 
@@ -41,16 +50,12 @@ const Code = () => {
                                 <p className="text-xl cursor-pointer font-semibold">Back to Code</p>
                             </div>
                         </nav>
-                        <div className="w-[95%] mx-auto mt-5">
+                        <div className="w-[95%] h-[80dvh] mx-auto mt-5">
                             <p className="text-xl mb-4">Output</p>
                             {/* output container */}
-                            <div className="bg-gray-100 p-5 rounded-lg">
-                                <div className="flex justify-end items-center h-10"><Copy className="text-gray-500 cursor-pointer"
-                                 height={30} width={30} /></div>
+                            <div className="bg-gray-100 px-1 py-4 rounded-lg h-full w-full">
                                 {/* output content */}
-                                <div>
-                                    Hello, World!
-                                </div>
+                                <iframe srcDoc={src} sandbox="allow-scripts" className="h-full w-full"></iframe>
                             </div>
                         </div>
                     </div>
@@ -65,11 +70,9 @@ const Code = () => {
                                 }}
                                     className="px-4 py-2 border border-gray-300 rounded-xl bg-white text-gray-700
                  shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500 transition">
-                                    <option value="python">Python</option>
-                                    <option value="java">Java</option>
-                                    <option value="c">C</option>
-                                    <option value="cpp">C++</option>
-                                    <option value="csharp">C#</option>
+                                    <option value="html">HTML</option>
+                                    <option value="css">CSS</option>
+                                    <option value="javascript">Javascript</option>
                                 </select>
                             </div>
                             <div className="mr-10">
@@ -78,19 +81,39 @@ const Code = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5">
-                            <Editor
-                                language={language}
-                                value={
-                                    language === 'python' ? defaultValue["python"] :
-                                        language === 'java' ? defaultValue["java"] :
-                                            language === 'c' ? defaultValue["c"] :
-                                                language === 'cpp' ? defaultValue["cpp"] : defaultValue["cs"]
-                                }
-                                onChange={(val) => setCode(val || "")}
-                                className="mx-auto"
-                            />
-                        </div>
+                        {language === 'html' && (
+                            <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5">
+                                <Editor
+                                    language={'html'}
+                                    value={html}
+                                    onChange={(val) => setHtml(val || "")}
+                                    className="mx-auto"
+                                />
+                            </div>
+                        )
+                        }
+                        {language === 'css' && (
+                            <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5">
+                                <Editor
+                                    language={'css'}
+                                    value={css}
+                                    onChange={(val) => setCss(val || "")}
+                                    className="mx-auto"
+                                />
+                            </div>
+                        )
+                        }
+                        {language === 'javascript' && (
+                            <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5">
+                                <Editor
+                                    language={'javascript'}
+                                    value={js}
+                                    onChange={(val) => setJs(val || "")}
+                                    className="mx-auto"
+                                />
+                            </div>
+                        )
+                        }
                     </div>
             }
         </div>

@@ -72,7 +72,8 @@ const AddUser = () => {
                                     {userData[0] ? (
                                         userData.map((item, i) => (
                                             <div key={i} className="h-14 border border-violet-600  shadow-xl flex items-center px-2 rounded-lg gap-3 md:gap-5">
-                                                <div className="bg-violet-500 rounded-full flex h-11 w-11 justify-center items-center">{item.profilePic}</div>
+                                                <div className="bg-violet-500 rounded-full flex h-11 w-11 justify-center items-center
+                                                font-bold border-2 border-violet-900 shadow-lg">{item.username[0]}</div>
                                                 <div className="mr-auto">
                                                     <p className="">{item.username}</p>
                                                     <p className="text-sm text-gray-300 max-w-50 md:max-w-98 md:overflow-none

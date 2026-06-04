@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 const RandomGame = () => {
   const router = useRouter();
   return <>
-    <div className="min-h-dvh bg-[url('/chess-mb.png')] md:bg-[url('/chess-lg.png')] h-dvh flex bg-cover flex items-center justify-center">
+    <div className="bg-[url('/chess-mb.png')] md:bg-[url('/chess-lg.png')] h-dvh flex bg-cover flex items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="bg-gray-100 rounded-full p-3 border shadow-xl w-min">
           <Users height={40} width={40} className="text-violet-800" />
         </div>
-        <p className="text-3xl font-bold text-gray-800 mt-3">Finding Your Opponent</p>
+        <p className="text-3xl font-bold text-gray-800 mt-20">Finding Your Opponent</p>
         <p className="text-gray-600 mt-2">We are searching for a player for 10min match</p>
         <div className="mt-14 md:mt-6">
           <div className="bg-gray-200 h-48 border-5 border-violet-900 w-48 rounded-full flex justify-center items-center">

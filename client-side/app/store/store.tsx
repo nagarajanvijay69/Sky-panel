@@ -1,4 +1,5 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Timestamp } from 'next/dist/server/lib/cache-handlers/types';
 
 interface user {
      _id: String,
@@ -9,6 +10,8 @@ interface user {
      weatherCity: String,
      conversation: conversationType[],
      message: messageType[],
+     aiConversation: aiConversationType[],
+     aiMessage: messageType[],
      last_seen: string,
      isOnline: boolean,
      profilePic: string,
@@ -20,7 +23,11 @@ interface user {
      tic_win: number,
      tic_draw: number,
      chatbot_message: number,
-     searchUser: searchUserType[]
+     searchUser: searchUserType[],
+     selectedChatId: string,
+     total_ai_message: number,
+     total_message: number,
+     weather: string
 }
 
 interface State {
@@ -54,6 +61,14 @@ export type conversationType = {
      receiver_id: string
 }
 
+type aiConversationType = {
+     _id: string,
+     user: string,
+     title: string,
+     createdAt: Timestamp,
+     updatedAt: Timestamp
+}
+
 const initialState: State = {
      value: {
           _id: "",
@@ -75,7 +90,13 @@ const initialState: State = {
           tic_win: 0,
           tic_draw: 0,
           chatbot_message: 0,
-          searchUser: []
+          searchUser: [],
+          aiConversation: [],
+          aiMessage: [],
+          selectedChatId: "",
+          total_message: 0,
+          total_ai_message: 0,
+          weather: "31°C"
      }
 }
 
@@ -85,6 +106,9 @@ const slice = createSlice({
      reducers: {
           initUser: (state, action: PayloadAction<user>) => {
                state.value = action.payload;
+          },
+          updateUser: (state, action: PayloadAction<Partial<user>>) => {
+               Object.assign(state.value, action.payload);
           },
           setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
                state.value.theme = action.payload;
@@ -124,6 +148,31 @@ const slice = createSlice({
           },
           clearSearchUser: (state) => {
                state.value.searchUser = []
+          },
+          initAIConversation: (state, action: PayloadAction<aiConversationType[]>) => {
+               state.value.aiConversation = action.payload
+          },
+          addAIConversation: (state, action: PayloadAction<aiConversationType>) => {
+               state.value.aiConversation.push(action.payload);
+          },
+          initAIMessage: (state, action: PayloadAction<messageType[]>) => {
+               state.value.aiMessage = action.payload
+          },
+          addAIMessage: (state, action: PayloadAction<messageType>) => {
+               console.log(action.payload);
+               if (action.payload) {
+                    console.log(action);
+                    state.value.aiMessage.push(action.payload);
+               }
+          },
+          addSelectedChatId: (state, action: PayloadAction<string>) => {
+               state.value.selectedChatId = action.payload;
+          },
+          clearSelectedChatId: (state) => {
+               state.value.selectedChatId = ""
+          },
+          initWeather: (state, action: PayloadAction<string>) => {
+              state.value.weather = action.payload
           }
      }
 });
@@ -138,4 +187,6 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export default store;
 export const { initUser, setTheme, setLogIn, setConversation, initMessage, addMessage,
-     clearMessage, addSearchUser, clearSearchUser, addConversation } = slice.actions;
+     clearMessage, addSearchUser, clearSearchUser, addConversation, initAIConversation,
+     addAIConversation, initAIMessage, addAIMessage, addSelectedChatId, clearSelectedChatId,
+     updateUser, initWeather } = slice.actions;

@@ -13,7 +13,8 @@ const layout = ({ children }: Readonly<{
      const router = useRouter();
      const dispatch = useDispatch();
 
-     let log = useRef(useSelector((state: RootState) => state.user.value.login));
+     const loginTemp = useSelector((state: RootState) => state.user.value)
+     let log = useRef(loginTemp?.login);
 
      const login = () => {
           if (!log.current) {

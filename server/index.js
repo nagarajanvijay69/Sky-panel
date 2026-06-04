@@ -11,11 +11,11 @@ require('./passport/passport');
 const frontendUri = process.env.FRONTEND_URI;
 const  chatSocket  = require('./socket/chatSocket')
 
-
 const authRoute = require('./routes/authRoute');
 const weatherRoute = require('./routes/weatherRoute');
 const chatRoute = require('./routes/chatRoute');
 const chatbotRoute = require('./routes/chatbotRoute');
+const userRoute = require('./routes/userRoute');
 
 // server setup
 const app = express();
@@ -56,6 +56,9 @@ app.use('/chat', chatRoute);
 
 //chatbot router
 app.use('/chatbot', chatbotRoute);
+
+//user router
+app.use('/user', userRoute);
 
 
 //mongoDB connect
