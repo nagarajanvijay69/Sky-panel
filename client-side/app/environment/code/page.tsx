@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import EnvNav from "../EnvNav";
+import axios from 'axios'
 import { Editor } from "@monaco-editor/react";
-import { ArrowLeft, Copy, Play } from "lucide-react";
+import { ArrowLeft, Copy, Play, Send, SendHorizonal, Sparkles, X, LucideAlignStartHorizontal } from "lucide-react";
 
 
 type CodeLang = "html" | "css" | "javascript";
@@ -15,12 +16,15 @@ const Code = () => {
     const [css, setCss] = useState("h1{\n background-color: red;\n }");
     const [js, setJs] = useState("const heading = document.getElementsByTagName('h1')[0];\nheading.onclick = () => {\n heading.style.backgroundColor = 'blue';\n}");
     const [code, setCode] = useState("");
-    console.log(code);
     const [src, setSrc] = useState("");
+    const [isAI, setIsAI] = useState(false);
+    const [query, setQuery] = useState("");
+    const [load, setLoad] = useState(false);
 
     const [isOutputPage, setIsOutputPage] = useState(false);
 
     const validateOutput = () => {
+        setIsAI(false);
         const template = `
           <DOCTYPE html>
           <html lan="en">
@@ -35,6 +39,27 @@ const Code = () => {
         `
         setSrc(template);
         setIsOutputPage(true);
+    };
+
+    const getAiResponse = async () => {
+        if (!query) return;
+        setLoad(true);
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URI}/ai/getCodeEditorResponse`, {
+                query, code: {
+                    html, css, js
+                }
+            });
+
+            setHtml(response.data.response.html);
+            setCss(response.data.response.css);
+            setJs(response.data.response.js);
+            setIsAI(false);
+            setQuery("");
+        } catch (e) {
+            alert(e);
+        }
+        setLoad(false)
     }
 
     return (
@@ -60,11 +85,11 @@ const Code = () => {
                         </div>
                     </div>
                     :
-                    <div>
+                    <div className="relative">
                         <EnvNav />
                         <div className="flex justify-between items-center">
                             <div className="option flex gap-2 mt-5 ml-5 items-center">
-                                <div className="">Language</div>
+                                <div className="hidden md:block">Language</div>
                                 <select value={language} onChange={(e) => {
                                     setLanguage(e.target.value as CodeLang);
                                 }}
@@ -75,14 +100,19 @@ const Code = () => {
                                     <option value="javascript">Javascript</option>
                                 </select>
                             </div>
-                            <div className="mr-10">
-                                <div className="play text-purple-800 cursor-pointer" onClick={validateOutput}>
-                                    <Play />
+                            <div className="mr-10 pt-5 flex gap-2 items-center">
+                                <div className="play text-purple-800 cursor-pointer flex z-10" onClick={() => setIsAI(!isAI)}>
+                                    <div><Sparkles /></div>
+                                </div>
+                                <div className="play text-purple-800 md:text-white md:bg-violet-800 cursor-pointer flex gap-2 md:px-2 md:py-2 rounded-lg"
+                                    onClick={validateOutput}>
+                                    <div><Play /></div>
+                                    <div className="hidden md:block">Run Code</div>
                                 </div>
                             </div>
                         </div>
                         {language === 'html' && (
-                            <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5">
+                            <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5 flex z-10" onClick={() => setIsAI(false)}>
                                 <Editor
                                     language={'html'}
                                     value={html}
@@ -93,7 +123,7 @@ const Code = () => {
                         )
                         }
                         {language === 'css' && (
-                            <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5">
+                            <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5 flex z-10" onClick={() => setIsAI(false)}>
                                 <Editor
                                     language={'css'}
                                     value={css}
@@ -104,7 +134,7 @@ const Code = () => {
                         )
                         }
                         {language === 'javascript' && (
-                            <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5">
+                            <div className="editor h-[80dvh] mx-auto overflow-hidden mt-5 flex z-10" onClick={() => setIsAI(false)}>
                                 <Editor
                                     language={'javascript'}
                                     value={js}
@@ -113,6 +143,39 @@ const Code = () => {
                                 />
                             </div>
                         )
+                        }
+                        {
+                            isAI && (
+                                <div className="absolute w-[95%] md:w-[80%] lg:w-[50%] mx-auto top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2
+                        flex flex-col items-center gap-2 z-20 bg-white">
+                                    <div className="bg-gray-100 rounded-3xl border-3 border-violet-400 flex gap-3 justify-center
+                             items-center p-2 text-violet-700 shadow-lg w-30">
+                                        <div><Sparkles size={20} /></div>
+                                        <div className="text-lg font-bold">Ask AI</div>
+                                    </div>
+                                    <div className="border-2 border-violet-500 shadow-lg rounded-2xl w-full p-3">
+                                        <div className="w-full">
+                                            <div className="w-full justify-between flex">
+                                                <p className="text-gray-800">What would you like to do?</p>
+                                                <div className="text-gray-500 cursor-pointer" onClick={() => setIsAI(false)}><X /></div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <input type="text" className="border-2 border-gray-400 shadow-lg w-full mt-4 rounded-lg h-12 outline-none px-3"
+                                                placeholder="Describe your changes or anything..." value={query} onChange={(e) => setQuery(e.target.value)} />
+                                            <div className="flex items-center mt-3 bg-violet-700 text-white px-2 py-2 rounded-lg cursor-pointer"
+                                            >
+                                                {load ?
+                                                    <div className="flex items-center justify-center">
+                                                        <div className="w-6 h-6 border-4 border-gray-300 border-t-violet-700 rounded-full animate-spin"></div>
+                                                    </div>
+                                                    :
+                                                    <SendHorizonal onClick={getAiResponse} />}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
                         }
                     </div>
             }

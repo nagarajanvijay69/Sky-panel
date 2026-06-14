@@ -66,8 +66,11 @@ const userSchema = new mongoose.Schema({
      total_ai_message: {
           type: Number,
           default: 0
+     },
+     rating: {
+          type: Number,
+          default: 300
      }
-
 }, {
      timestamps: true
 });

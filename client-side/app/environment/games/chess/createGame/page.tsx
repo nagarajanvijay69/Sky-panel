@@ -4,6 +4,11 @@ import { AlarmClockCheck, Award, ChessQueen, Globe, Share, X } from "lucide-reac
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addChessTotal, RootState, setColor, setMatchcode, updateUser } from "@/app/store/store";
+import chessSocket from "@/app/chessSocket"
+import axios from "axios";
 
 const InitGame = () => {
 
@@ -13,6 +18,65 @@ const InitGame = () => {
     router.push('/environment/games/chess');
   }
 
+  const dispatch = useDispatch()
+  const tempRef = useRef(false);
+
+  const user = useSelector((state: RootState) => state.user.value._id);
+  const matchCode = useSelector((state: RootState) => state.user.value.matchCode)
+
+
+
+  useEffect(() => {
+    if (!tempRef.current && user) {
+      const code = String(Math.floor(10000 + (Math.random() * 90000)));
+      dispatch(setMatchcode(code));
+      console.log("team code", code)
+      chessSocket.emit("connectMatch", {
+        matchCode: code,
+        role: "creator"
+      });
+      tempRef.current = true
+    }
+  });
+
+
+  useEffect(() => {
+    const handleRoomExist = () => {
+      alert("Room already Exists, Refresh to create new code")
+    }
+    chessSocket.on("room-exists", handleRoomExist);
+    return () => {
+      chessSocket.off("room-exists", handleRoomExist);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleColor = (c: string) => {
+
+      console.log(c as 'black' | 'white');
+      dispatch(setColor(c))
+    }
+    chessSocket.on("player-color", handleColor);
+    return () => {
+      chessSocket.off("player-color", handleColor);
+    }
+  }, []);
+
+
+  useEffect(() => {
+    const handleJoinGame = async() => {
+      const res = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URI}/user/addChess`, {userId: user})
+      dispatch(updateUser(res.data.user));
+      router.push('/environment/games/chess/playGame');
+    }
+    chessSocket.on("game-start", handleJoinGame);
+
+    return () => {
+      chessSocket.off("game-start", handleJoinGame);
+    }
+  }, []);
+
+
   return <>
     <div className="bg-[url('/chess-mb.png')] md:bg-[url('/chess-lg.png')] bg-cover text-violet-800">
       <Header />
@@ -21,9 +85,9 @@ const InitGame = () => {
         <div className="text-center">Your invitation code</div>
         {/* code */}
         <div>
-          <input className="w-[95%] font-bold shadow border border-violet-800 rounded-lg bg-violet-200 mx-auto mt-5 h-20 flex justify-center text-center items-center text-3xl 
-          outline-none"
-            defaultValue={123456} readOnly />
+          <input className="w-[95%] font-bold shadow border border-violet-800 rounded-lg bg-violet-200 mx-auto mt-5
+           h-20 flex justify-center text-center items-center text-3xl outline-none"
+            value={matchCode} readOnly />
         </div>
         <div className="flex justify-center items-center mt-5 text-lg gap-3">
           <div className="p-2 rounded-full bg-violet-300"><ChessQueen height={25} width={25} /></div>
@@ -53,7 +117,7 @@ const InitGame = () => {
             <AlarmClockCheck width={40} height={40} />
           </div>
           <p className="mt-3">Format</p>
-          <p className="text-gray-700 ">10min | Rapid</p>
+          <p className="text-gray-700 ">No time limit</p>
         </div>
         <div className="bg-gray-100 shadow-xl h-40 p-3 flex flex-col items-center justify-center rounded">
           <div className="bg-violet-300 p-2 rounded-full">

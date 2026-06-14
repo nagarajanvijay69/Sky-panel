@@ -9,13 +9,15 @@ const http = require("http");
 const { Server } = require('socket.io');
 require('./passport/passport');
 const frontendUri = process.env.FRONTEND_URI;
-const  chatSocket  = require('./socket/chatSocket')
+const chatSocket = require('./socket/chatSocket');
+const chessSocket = require('./socket/chessSocket');
 
 const authRoute = require('./routes/authRoute');
 const weatherRoute = require('./routes/weatherRoute');
 const chatRoute = require('./routes/chatRoute');
 const chatbotRoute = require('./routes/chatbotRoute');
 const userRoute = require('./routes/userRoute');
+const AiRoute = require('./routes/aiRoute');
 
 // server setup
 const app = express();
@@ -40,8 +42,14 @@ const io = new Server(server, {
      }
 });
 
+
+//chat socket
 const chat = io.of("/socket/chat");
 chatSocket(chat);
+
+//chess socket
+const chess = io.of("/socket/chess");
+chessSocket(chess)
 
 
 
@@ -59,6 +67,9 @@ app.use('/chatbot', chatbotRoute);
 
 //user router
 app.use('/user', userRoute);
+
+//ai router
+app.use('/ai', AiRoute)
 
 
 //mongoDB connect

@@ -47,9 +47,7 @@ const layout = ({ children }: Readonly<{
      return <>
           {log &&
                <>
-                    <div className="bg-gray-100">
                          {children}
-                    </div>
                </>
           }
      </>

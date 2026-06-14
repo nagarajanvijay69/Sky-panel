@@ -16,7 +16,7 @@ const Weather = () => {
      const [humidity, setHumidity] = useState("68");
      const [sunrise, setSunrise] = useState("8:57:51 am");
      const [sunset, setSunset] = useState("8:01:39 pm");
-     const [discription, setDiscription] = useState("scattered clouds");
+     const [description, setDescription] = useState("scattered clouds");
      const [speed, setSpeed] = useState(0);
      const [icon, setIcon] = useState("");
      const [name, setName] = useState(city);
@@ -58,10 +58,10 @@ const Weather = () => {
           setHumidity(data.humidity);
           setSunrise(rise);
           setSunset(set);
-          setDiscription(des);
+          setDescription(des);
           setSpeed(t3);
           setName(data.name);
-          setAi("");
+          setAi(data.aiResponse);
           setCity("");
           setLoad(false);
           setCount(prev => prev + 1);
@@ -114,7 +114,7 @@ const Weather = () => {
                          <div>Feels like {feels_like.toFixed(1)} °C</div>
                     </div>
                     <div className="flex justify-center mb-3 text-white text-2xl font-semibold">
-                         <div>{discription}</div>
+                         <div>{description}</div>
                     </div>
                </div>
                <div className="text-white flex flex-col lg:flex-row gap-2 my-10 w-[90%] mx-auto">
@@ -155,10 +155,13 @@ const Weather = () => {
                          <div>{sunset}</div>
                     </div>
                </div>
-               {/* <div className="summary mt-7 bg-white w-[90%] mx-auto rounded-xl py-5 px-1 lg:px-5">
-                    <p className='text-2xl font-semibold mb-2'>Today's Summary</p>
-                    <p className='text-gray-800'>ai</p>
-               </div> */}
+               {
+                    ai &&
+                    <div className="summary mt-7 bg-white w-[90%] mx-auto rounded-xl py-5 px-1 lg:px-5">
+                         <p className='text-2xl font-semibold mb-2'>Today's Summary</p>
+                         <p className='text-gray-800'>{ai}</p>
+                    </div>
+               }
           </div>
      </>
 }

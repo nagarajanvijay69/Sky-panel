@@ -27,7 +27,10 @@ interface user {
      selectedChatId: string,
      total_ai_message: number,
      total_message: number,
-     weather: string
+     weather: string,
+     matchCode: string,
+     color: string,
+     rating: number
 }
 
 interface State {
@@ -76,7 +79,7 @@ const initialState: State = {
           weatherCity: "",
           username: "",
           theme: 'light',
-          login: false,
+          login: true,
           conversation: [],
           message: [],
           last_seen: new Date().toString(),
@@ -96,7 +99,10 @@ const initialState: State = {
           selectedChatId: "",
           total_message: 0,
           total_ai_message: 0,
-          weather: "31°C"
+          weather: "31°C",
+          matchCode: "",
+          color: "",
+          rating: 200
      }
 }
 
@@ -172,7 +178,22 @@ const slice = createSlice({
                state.value.selectedChatId = ""
           },
           initWeather: (state, action: PayloadAction<string>) => {
-              state.value.weather = action.payload
+               state.value.weather = action.payload
+          },
+          setMatchcode: (state, action: PayloadAction<string>) => {
+               state.value.matchCode = action.payload
+          },
+          setColor: (state, action: PayloadAction<string>) => {
+               state.value.color = action.payload
+          },
+          addChessWin: (state) => {
+               state.value.chess_win = state.value.chess_win + 1
+          },
+          addChessDraw: (state) => {
+               state.value.chess_draw = state.value.chess_draw + 1
+          },
+          addChessTotal: (state) => {
+               state.value.chess_total = state.value.chess_total + 1
           }
      }
 });
@@ -189,4 +210,5 @@ export default store;
 export const { initUser, setTheme, setLogIn, setConversation, initMessage, addMessage,
      clearMessage, addSearchUser, clearSearchUser, addConversation, initAIConversation,
      addAIConversation, initAIMessage, addAIMessage, addSelectedChatId, clearSelectedChatId,
-     updateUser, initWeather } = slice.actions;
+     updateUser, initWeather, setMatchcode, setColor, addChessWin, addChessDraw,
+     addChessTotal } = slice.actions;

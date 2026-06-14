@@ -3,17 +3,89 @@
 import { Swords, X } from "lucide-react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { addChessTotal, RootState, setColor, setMatchcode, updateUser } from "@/app/store/store";
+import chessSocket from "@/app/chessSocket";
+import axios from "axios";
 
 const JoinGame = () => {
 
+  const matchCode = useSelector((state: RootState) => state.user.value.matchCode);
+  const userId =  useSelector((state: RootState) => state.user.value._id);
   const [teamCode, setTeamCode] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleCancel = () => {
     router.push('/environment/games/chess');
   }
+
+  // join match 
+  const joinMatch = () => {
+    dispatch(setMatchcode(teamCode))
+    chessSocket.emit("connectMatch", {
+      matchCode: teamCode,
+      role: "joiner"
+    })
+    console.log("joined", teamCode)
+  }
+
+  //geting color
+  useEffect(() => {
+    const handleColor = (c: string) => {
+
+      console.log(c as 'black' | 'white');
+      dispatch(setColor(c))
+    }
+    chessSocket.on("player-color", handleColor);
+    return () => {
+      chessSocket.off("player-color", handleColor);
+    }
+  }, []);
+
+
+  // connect to match
+  useEffect(() => {
+    const handleJoinGame = async() => {
+      const res = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URI}/user/addChess`, { userId })
+      dispatch(updateUser(res.data.user));
+      router.push('/environment/games/chess/playGame');
+    }
+    chessSocket.on("game-start", handleJoinGame);
+
+    return () => {
+      chessSocket.off("game-start", handleJoinGame);
+    }
+  }, []);
+
+
+  // check code validity
+  useEffect(() => {
+    const handleInvalidCode = () => {
+      alert("Enter valid code");
+      setTeamCode("")
+    }
+
+    chessSocket.on("invalid-code", handleInvalidCode);
+    return () => {
+      chessSocket.off("invalid-code", handleInvalidCode);
+    }
+  }, []);
+
+  // check room is full or not
+  useEffect(() => {
+    const handleRoomFull = () => {
+      alert("Room Full!");
+    }
+
+    chessSocket.on("room-full", handleRoomFull);
+    return () => {
+      chessSocket.off("room-full", handleRoomFull);
+    }
+  }, []);
+
 
   return <>
     <div className="bg-[url('/chess-mb.png')] md:bg-[url('/chess-lg.png')] bg-cover ">
@@ -27,12 +99,12 @@ const JoinGame = () => {
           <div>
             <input className="w-[95%] rounded-lg bg-violet-200 border mx-auto mt-3 border h-20 flex justify-center text-center
           outline-none focus:border-0 shadow-xl items-center text-3xl text-violet-900 font-bold"
-              value={teamCode} type="text" onChange={(e) => setTeamCode(e.target.value)} placeholder="984587" />
+              value={teamCode} type="text" onChange={(e) => setTeamCode(e.target.value)} placeholder="98458" />
           </div>
           <div className="flex flex-col gap-3 my-5">
             <div className="flex justify-center items-center">
               <button className="bg-violet-800 text-white flex justify-center items-center rounded
-             gap-1 px-3 py-3 w-[90%] md:w-[80%] lg:w-[60%] cursor-pointer">
+             gap-1 px-3 py-3 w-[90%] md:w-[80%] lg:w-[60%] cursor-pointer" onClick={joinMatch}>
                 <Swords />
                 Join Match
               </button>

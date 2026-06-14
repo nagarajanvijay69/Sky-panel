@@ -1,4 +1,5 @@
-const  userModel  = require("../model/userModel");
+const userModel = require("../model/userModel");
+const weatherResponse = require('../services/weatherAI');
 
 // weather controllers
 
@@ -25,22 +26,27 @@ exports.getWeather = async (req, res) => {
         let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.OPEN_WEATHER_MAP}`);
         let data = await response.json();
 
+
         const {
             main: {
                 temp, feels_like, humidity
             }, sys: {
                 sunrise, sunset
             }, weather: {
-                main, discription, icon
+                main, description, icon
             }, wind: {
                 speed
             }, name
         } = await data;
+        const aiResponse = await weatherResponse({
+            temp, feels_like, humidity, sunrise, sunset, description,
+            speed, name, ai: data, icon, city
+        });
 
         res.status(200).json({
             success: true, data: {
-                temp, feels_like, humidity, sunrise, sunset, discription,
-                speed, name, ai: data, icon
+                temp, feels_like, humidity, sunrise, sunset, description,
+                speed, name, ai: data, icon, aiResponse
             }
         });
 

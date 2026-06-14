@@ -28,7 +28,7 @@ const home = () => {
           </div>
           <div className="mt-6 flex flex-col gap">
             <p className="text-gray-100 text">Welcome to SkyPanel</p>
-            <p className="text-4xl lg:text-5xl font-bold">Nagarajan👋</p>
+            <p className="text-4xl lg:text-5xl font-bold">{user?.username?.slice(0, 25)}{user?.username[25] && "..."}👋</p>
             <p className="text-gray-200 mt-2 lg:w-[60%]">Your personal workspace for conversations, games, whether tracking and intelligent insights</p>
           </div>
           <div className="flex flex-col gap-3 mt-5 lg:mt-8">
