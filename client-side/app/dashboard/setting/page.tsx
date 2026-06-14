@@ -121,7 +121,7 @@ const setting = () => {
                               <div className="pt-4 px-5">
                                    <input type="text" className="outline-none border-2 h-12
                                     shadow-lg rounded-lg border-violet-900 w-full px-5"
-                                        placeholder="Enter your name.." />
+                                        placeholder="Enter your name.." value={name} onChange={(e)=> setName(e.target.value)} />
                                    <button className="w-full bg-gradient-to-r from-violet-800 to-violet-900 text-white
                                    h-10 rounded-lg mt-2 cursor-pointer">{updateLoad ? <div className="flex justify-center items-center gap-1 text-white">
                                              <span className="h-3 w-3 rounded-full bg-white animate-pulse"></span>
@@ -144,11 +144,12 @@ const setting = () => {
                               <p className="text-xl font-bold text-center w-full">Update Password</p>
                               <div className="pt-4 px-5">
                                    <input type="password" className="outline-none border-2 h-12
-                                    shadow-lg rounded-lg border-violet-900 w-full px-5"
+                                    shadow-lg rounded-lg border-violet-900 w-full px-5" value={password}
+                                     onChange={(e)=> setPassword(e.target.value)}
                                         placeholder="Password.." />
                                    <input type="password" className="mt-2 outline-none border-2 h-12
-                                    shadow-lg rounded-lg border-violet-900 w-full px-5"
-                                        placeholder="confirm password.." />
+                                    shadow-lg rounded-lg border-violet-900 w-full px-5" value={confirmPass}
+                                        placeholder="confirm password.." onChange={(e)=> setConfirmPass(e.target.value)} />
                                    <button className="w-full bg-gradient-to-r from-violet-800 to-violet-900 text-white
                                    h-10 rounded-lg mt-2 cursor-pointer">{updateLoad ? <div className="flex items-center justify-center gap-1 text-white">
                                              <span className="h-3 w-3 rounded-full bg-white animate-pulse"></span>
