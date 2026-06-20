@@ -52,6 +52,11 @@ const chess = io.of("/socket/chess");
 chessSocket(chess)
 
 
+//ping
+app.get('/ping', async (req, res) => {
+   res.send("API Working!")
+});
+
 
 //auth router
 app.use('/', authRoute);
