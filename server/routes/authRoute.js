@@ -1,5 +1,5 @@
 const express = require('express');
-const { signin, login, logout, googleAuth, googleSignup, getToken, failureRedirect } = require('../controller/authController');
+const { signin, login, logout, googleAuth, googleSignup, getToken, failureRedirect, changeName, changePassword, deleteUser } = require('../controller/authController');
 const authRoute = express.Router();
 
 // Signup
@@ -21,6 +21,15 @@ authRoute.get('/token', getToken);
 
 // google failureRedirect
 authRoute.get('/redirect', failureRedirect);
+
+// change username
+authRoute.patch('/updateUsername', changeName);
+
+// change password
+authRoute.patch('/updatePassword', changePassword);
+
+// delete user
+authRoute.delete('/deleteUser', deleteUser);
 
 
 

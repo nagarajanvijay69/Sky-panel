@@ -63,9 +63,9 @@ const Nav = () => {
                </div>
                <div className="right">
                     <div className="flex items-center justify-end gap-2">
-                         <div className="text-gray-600 rounded-full bg-white p-2 border border-gray-300 cursor-pointer">
+                         {/* <div className="text-gray-600 rounded-full bg-white p-2 border border-gray-300 cursor-pointer">
                               <Bell />
-                         </div>
+                         </div> */}
                          <div className="text-gray-600 rounded-full bg-white p-2 border border-gray-300 cursor-pointer"
                           onClick={()=> router.push('/dashboard/setting')}>
                               <Settings />

@@ -1,10 +1,10 @@
-const userModel  = require("../model/userModel");
+const userModel = require("../model/userModel");
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
 
-exports.signin =  async (req, res) => {
+exports.signin = async (req, res) => {
      const { username, email, password } = req.body;
      if (!username || !email || !password) return res.status(200).json({ success: false, message: "All fields are required" });
      let pre = await userModel.findOne({ email });
@@ -71,7 +71,7 @@ exports.login = async (req, res) => {
 }
 
 
-exports.logout =  async (req, res) => {
+exports.logout = async (req, res) => {
      try {
           res.clearCookie('ticket');
           res.status(200).json({ success: true, message: "logged Out Successfully", user: {} });
@@ -104,8 +104,9 @@ exports.googleSignup = async (req, res) => {
      }
 }
 
-exports.getToken =  async (req, res) => {
+exports.getToken = async (req, res) => {
      const ticket = req.cookies.ticket;
+     console.log(ticket)
      if (!ticket) return res.status(200).json({ success: false, message: "Login required" });
 
      try {
@@ -115,10 +116,78 @@ exports.getToken =  async (req, res) => {
                res.status(200).json({ success: true, message: "verified successfully", user })
           }
      } catch (error) {
-          res.status(200).json({ success: false, message: e.message });
+          res.status(200).json({ success: false, message: error.message });
      }
 }
 
 exports.failureRedirect = async (req, res) => {
      res.redirect(`${process.env.FRONTEND_URI}/auth/login`);
+}
+
+exports.changePassword = async (req, res) => {
+     const { password, confirmPassword, userId } = req.body;
+     if (!password || !confirmPassword || !userId) {
+          return res.status(401).json({
+               success: false,
+               message: "All fields are required!"
+          });
+     }
+
+     if (password !== confirmPassword) {
+          return res.status(200).json({
+               success: false,
+               message: "Password and confirm password must be same!"
+          });
+     }
+
+     const securePassword = await bcrypt.hash(password, 7);
+     const user = await userModel.findById(userId);
+
+     if (user.isGoogle) {
+          return res.status(200).json({
+               success: false,
+               message: "Unable to chnage password for google account!"
+          })
+     }
+
+     user.password = securePassword;
+     await user.save();
+
+     res.status(200).json({
+          success: true,
+          message: "password updated successfully!"
+     });
+}
+
+exports.changeName = async (req, res) => {
+     const { username, userId } = req.body;
+     if (!username || !userId) {
+          return res.status(401).json({
+               success: false,
+               message: "Username required!"
+          });
+     }
+
+     const user = await userModel.findByIdAndUpdate(userId, { username }, { new: true });
+     res.status(200).json({
+          success: true,
+          message: "Username Updated!",
+          user
+     });
+
+}
+
+exports.deleteUser = async (req, res) => {
+     const { userId } = req.body;
+     if (!userId) return res.status(401).json({
+          success: false,
+          message: "userId required!"
+     });
+
+     await userModel.findByIdAndDelete(userId);
+     res.clearCookie("ticket");
+     res.status(200).json({
+          success: true,
+          message: "User Deleted successfully!"
+     });
 }

@@ -81,7 +81,7 @@ const initialState: State = {
           username: "",
           isGoogle: false,
           theme: 'light',
-          login: true,
+          login: false,
           conversation: [],
           message: [],
           last_seen: new Date().toString(),
@@ -196,6 +196,9 @@ const slice = createSlice({
           },
           addChessTotal: (state) => {
                state.value.chess_total = state.value.chess_total + 1
+          }, 
+          setLogout: (state) => {
+               state.value = initialState.value
           }
      }
 });
@@ -213,4 +216,4 @@ export const { initUser, setTheme, setLogIn, setConversation, initMessage, addMe
      clearMessage, addSearchUser, clearSearchUser, addConversation, initAIConversation,
      addAIConversation, initAIMessage, addAIMessage, addSelectedChatId, clearSelectedChatId,
      updateUser, initWeather, setMatchcode, setColor, addChessWin, addChessDraw,
-     addChessTotal } = slice.actions;
+     addChessTotal, setLogout } = slice.actions;

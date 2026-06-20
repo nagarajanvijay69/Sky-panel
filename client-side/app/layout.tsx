@@ -17,6 +17,7 @@ export default function RootLayout({ children }: Readonly<{
 
   const verifyToken = async () => {
     let res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/token`, { withCredentials: true });
+    console.log(res)
     if (res.data.success) {
       store.dispatch(initUser(res.data.user));
       store.dispatch(setLogIn(true));

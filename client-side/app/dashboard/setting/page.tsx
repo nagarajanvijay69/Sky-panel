@@ -1,9 +1,11 @@
 'use client'
 
-import { RootState } from "@/app/store/store";
+import { RootState, setLogout, updateUser } from "@/app/store/store";
+import axios from "axios";
 import { Info, Pencil, TriangleAlert, UserLock } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const setting = () => {
      const user = useSelector((state: RootState) => state.user.value);
@@ -14,6 +16,9 @@ const setting = () => {
      const [confirmPass, setConfirmPass] = useState("");
      const [updateLoad, setUpdateLoad] = useState(false);
      const [deleteLoad, setDeleteLoad] = useState(false);
+     const dispatch = useDispatch();
+     const router = useRouter();
+
 
      const handleChangeName = () => {
           setChangePassword(false);
@@ -25,6 +30,53 @@ const setting = () => {
           setChangePassword(true);
      }
 
+     const changeNameMethod = async () => {
+          if (!name) return;
+          setUpdateLoad(true)
+          const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URI}/updateUsername`,
+               { userId: user._id, username: name });
+          if (response.data.success) {
+               dispatch(updateUser(response.data.user));
+          } else {
+               alert(response.data.message);
+          }
+          setName("");
+          setUpdateLoad(false);
+          setChangeName(false)
+     }
+
+     const changePasswordMethod = async () => {
+          if (!password || !confirmPass) return;
+          if (password !== confirmPass) alert("Both password must be same!");
+          setUpdateLoad(true)
+          const res = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URI}/updatePassword`, {
+               userId: user._id, password, confirmPassword: confirmPass
+          })
+          if (res.data.success) alert("Updated Successfully");
+          else alert(res.data.message);
+          setPassword("");
+          setConfirmPass("");
+          setUpdateLoad(false);
+          setChangePassword(false);
+     }
+
+     const deleteUser = async () => {
+          setDeleteLoad(true);
+          const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URI}/deleteUser`, {
+               data: {
+                    userId: user._id
+               }, withCredentials: true
+          });
+          if (res.data.success) {
+               dispatch(setLogout());
+               router.push("/auth/login")
+          } else {
+               alert(res.data.message);
+          }
+
+          setDeleteLoad(false);
+     }
+
      return (
           <div className="w-[90%] mx-auto pb-30">
                <div onClick={() => {
@@ -34,10 +86,10 @@ const setting = () => {
 
                     <p className="text-2xl font-bold pt-8">Settings</p>
                     <p className="text-gray-700">Manage your SkyPanel account</p>
-                    <div className="w-full mx-auto mt-5 bg-white rounded-lg p-4 shadow-xl">
+                    <div className="w-full mx-auto mt-5 bg-gray-100 border-3 border-violet-600 rounded-lg p-4 shadow-xl">
                          <div>
                               <div className="flex justify-between">
-                                   <p className="text-lg font-bold text-gray-900">Account Information</p>
+                                   <p className="text-lg font-bold text-violet-700">Account Information</p>
                                    <div className="bg-violet-300 
                               shadow-lg rounded-full p-3 cursor-pointer text-violet-800" onClick={(e) => {
                                              e.stopPropagation();
@@ -48,13 +100,13 @@ const setting = () => {
                               </div>
                               <div className="flex flex-col items-center mt-4 py-4">
                                    <div className="h-30 w-30 rounded-full bg-violet-200 flex justify-center items-center 
-                              text-4xl font-bold shadow-lg border text-violet-800">{user.username.at(0) ?? "N"}</div>
-                                   <p className="text-2xl text-violet-800 mt-3 font-bold">{"Nagarajan Vijay"}</p>
-                                   <p className="text-xl">{"nagarajanvijay6380@gmail.com"}</p>
+                              text-4xl font-bold shadow-lg border text-violet-800">{user.username.at(0) ?? "?"}</div>
+                                   <p className="text-2xl text-violet-800 mt-3 font-bold">{user.username ? user.username : "Unknown User"}</p>
+                                   <p className="text-xl text-gray-700">{user.email ? user.email : "unknown@gmail.com"}</p>
                               </div>
                          </div>
                     </div>
-                    <div className="bg-white rounded-lg p-4 w-full mx-auto mt-4 shadow-xl">
+                    <div className="bg-gray-100 rounded-lg border-3 border-violet-600 p-4 w-full mx-auto mt-4 shadow-xl">
                          <p className="text-lg font-bold text-gray-900 mb-3">Security</p>
                          <div className="flex flex-col md:flex-row md:justify-between">
                               <div className="flex items-center gap-3">
@@ -74,7 +126,7 @@ const setting = () => {
                               </div>
                          </div>
                     </div>
-                    <div className="bg-white rounded-lg p-4 w-full mx-auto mt-4 shadow-xl">
+                    <div className="bg-gray-100 border-3 border-violet-600 rounded-lg p-4 w-full mx-auto mt-4 shadow-xl">
                          <p className="text-lg font-bold text-gray-900 mb-3">About SkyPanel</p>
                          <div className="flex flex-col md:flex-row md:justify-between">
                               <div className="flex items-center gap-3">
@@ -97,7 +149,9 @@ const setting = () => {
                                    </div>
                               </div>
                               <div>
-                                   <button className="flex justify-center items-center cursor-pointer
+                                   <button onClick={() => {
+                                        if (window.confirm("Are you sure to Delete?")) deleteUser();
+                                   }} className="flex justify-center items-center cursor-pointer
                                bg-red-700 h-10 w-36 rounded-lg text-white mt-5">{deleteLoad ? <div className="flex justify-center items-center gap-1 text-white">
                                              <span className="h-3 w-3 rounded-full bg-white animate-pulse"></span>
                                              <span
@@ -121,8 +175,8 @@ const setting = () => {
                               <div className="pt-4 px-5">
                                    <input type="text" className="outline-none border-2 h-12
                                     shadow-lg rounded-lg border-violet-900 w-full px-5"
-                                        placeholder="Enter your name.." value={name} onChange={(e)=> setName(e.target.value)} />
-                                   <button className="w-full bg-gradient-to-r from-violet-800 to-violet-900 text-white
+                                        placeholder="Enter your name.." value={name} onChange={(e) => setName(e.target.value)} />
+                                   <button onClick={changeNameMethod} className="w-full bg-gradient-to-r from-violet-800 to-violet-900 text-white
                                    h-10 rounded-lg mt-2 cursor-pointer">{updateLoad ? <div className="flex justify-center items-center gap-1 text-white">
                                              <span className="h-3 w-3 rounded-full bg-white animate-pulse"></span>
                                              <span
@@ -145,12 +199,12 @@ const setting = () => {
                               <div className="pt-4 px-5">
                                    <input type="password" className="outline-none border-2 h-12
                                     shadow-lg rounded-lg border-violet-900 w-full px-5" value={password}
-                                     onChange={(e)=> setPassword(e.target.value)}
+                                        onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Password.." />
                                    <input type="password" className="mt-2 outline-none border-2 h-12
                                     shadow-lg rounded-lg border-violet-900 w-full px-5" value={confirmPass}
-                                        placeholder="confirm password.." onChange={(e)=> setConfirmPass(e.target.value)} />
-                                   <button className="w-full bg-gradient-to-r from-violet-800 to-violet-900 text-white
+                                        placeholder="confirm password.." onChange={(e) => setConfirmPass(e.target.value)} />
+                                   <button onClick={changePasswordMethod} className="w-full bg-gradient-to-r from-violet-800 to-violet-900 text-white
                                    h-10 rounded-lg mt-2 cursor-pointer">{updateLoad ? <div className="flex items-center justify-center gap-1 text-white">
                                              <span className="h-3 w-3 rounded-full bg-white animate-pulse"></span>
                                              <span

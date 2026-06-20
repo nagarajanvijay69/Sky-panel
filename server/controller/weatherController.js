@@ -18,7 +18,7 @@ exports.setWeatherCity = async (req, res) => {
     }
 }
 
-exports.getWeather = async (req, res) => {
+exports.getWeathers = async (req, res) => {
     const city = req.params.city;
     if (!city) return res.status(200).json({ success: false, message: "City is required" });
 
@@ -47,6 +47,40 @@ exports.getWeather = async (req, res) => {
             success: true, data: {
                 temp, feels_like, humidity, sunrise, sunset, description,
                 speed, name, ai: data, icon, aiResponse
+            }
+        });
+
+    } catch (e) {
+        res.status(200).json({ success: false, message: e.message });
+    }
+}
+
+
+exports.getWeather = async (req, res) => {
+    const city = req.params.city;
+    if (!city) return res.status(200).json({ success: false, message: "City is required" });
+
+    try {
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.OPEN_WEATHER_MAP}`);
+        let data = await response.json();
+
+
+        const {
+            main: {
+                temp, feels_like, humidity
+            }, sys: {
+                sunrise, sunset
+            }, weather: {
+                main, description, icon
+            }, wind: {
+                speed
+            }, name
+        } = await data;
+
+        res.status(200).json({
+            success: true, data: {
+                temp, feels_like, humidity, sunrise, sunset, description,
+                speed, name, ai: data, icon,
             }
         });
 
