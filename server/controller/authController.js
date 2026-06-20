@@ -22,7 +22,8 @@ exports.signin = async (req, res) => {
           let token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
           res.cookie("ticket", token, {
                httpOnly: true,
-               secure: false,
+               secure: process.env.ENV == 'DEV' ? false: true,
+               sameSite: process.env.ENV == 'DEV' ? "lax" : "none" ,
                maxAge: 30 * 24 * 60 * 60 * 1000
           });
           res.status(201).json({ success: true, message: "User Created", user });
@@ -46,13 +47,14 @@ exports.login = async (req, res) => {
      if (google && user) return res.status(200).json({ success: false, message: "Email already used by google Login, try to login with google" });
 
      try {
-          let compare = bcrypt.compare(password, user.password);
+          let compare = await bcrypt.compare(password, user.password);
           if (!compare) return res.status(200).json({ success: false, message: "Incorrect Password" });
 
           let token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
           res.cookie('ticket', token, {
-               secure: false,
+               secure: process.env.ENV === 'DEV' ? false: true,
                httpOnly: true,
+               sameSite: process.env.ENV == 'DEV' ? "lax" : "none" ,
                maxAge: 30 * 24 * 60 * 60 * 1000
           });
 
@@ -93,8 +95,9 @@ exports.googleSignup = async (req, res) => {
      try {
           let token = jwt.sign({ userId: req.user._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
           res.cookie('ticket', token, {
-               secure: false,
+               secure: process.env.ENV === 'DEV' ? false: true,
                httpOnly: true,
+               sameSite: process.env.ENV == 'DEV' ? "lax" : "none" ,
                maxAge: 30 * 24 * 60 * 60 * 1000
           });
           // console.log(token);
