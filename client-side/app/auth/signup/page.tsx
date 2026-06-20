@@ -16,13 +16,13 @@ const Signup = () => {
      const dispatch = useDispatch();
      const router = useRouter();
 
-     const submit = async(e: React.FormEvent) => {
+     const submit = async (e: React.FormEvent) => {
           e.preventDefault();
           if (!name.trim() || !email.trim() || !password.trim()) return alert("All fields are required");
           console.log(name, email, password);
 
           try {
-               let res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URI}/signup`, {username: name, email, password},{
+               let res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URI}/signup`, { username: name, email, password }, {
                     withCredentials: true
                });
                if (res.data.success) {
@@ -53,11 +53,11 @@ const Signup = () => {
                               Already Have account? <Link href='/auth/login' className="text-purple-800 cursor-pointer">Login</Link>
                          </div>
                     </div>
-                    <div className="text-purple-800 py-2 bg-gray-100 items-center justify-center
-                     gap-2 border border-gray-300 shadow-lg roundex-xl flex cursor-pointer mb-1">
+                    <a href={`${process.env.NEXT_PUBLIC_SERVER_URI}/google`} className="text-purple-800 py-2 bg-gray-100 items-center justify-center
+                                        gap-2 border border-gray-300 shadow-lg roundex-xl flex cursor-pointer mb-1">
                          <Image src={google} width={25} height={25} alt="google"></Image>
                          <div className="text-center mr-2 font-semibold">Google</div>
-                    </div>
+                    </a>
                </form>
           </div>
      </>

@@ -5,7 +5,7 @@ const userModel = require('../model/userModel');
 passport.use(new google({
      clientID: process.env.CLIENT_ID,
      clientSecret: process.env.CLIENT_SECRET,
-     callbackURL: '/google'
+     callbackURL: 'https://sky-panel.onrender.com/google'
 },
      async (accessToken, refreshToken, profile, done) => {
           try {
