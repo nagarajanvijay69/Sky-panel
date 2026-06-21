@@ -113,7 +113,9 @@ const slice = createSlice({
      initialState,
      reducers: {
           initUser: (state, action: PayloadAction<user>) => {
-               state.value = action.payload;
+               if(action.payload){
+                    state.value = action.payload;
+               }
           },
           updateUser: (state, action: PayloadAction<Partial<user>>) => {
                Object.assign(state.value, action.payload);
@@ -122,7 +124,9 @@ const slice = createSlice({
                state.value.theme = action.payload;
           },
           setLogIn: (state, action: PayloadAction<Boolean>) => {
-               state.value.login = action.payload;
+               if (action.payload) {
+                    state.value.login = action.payload;
+               }
           },
           setConversation: (state, action: PayloadAction<conversationType[]>) => {
                state.value.conversation = action.payload;
@@ -196,7 +200,7 @@ const slice = createSlice({
           },
           addChessTotal: (state) => {
                state.value.chess_total = state.value.chess_total + 1
-          }, 
+          },
           setLogout: (state) => {
                state.value = initialState.value
           }
