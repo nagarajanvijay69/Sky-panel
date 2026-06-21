@@ -45,9 +45,9 @@ const Login = () => {
                               className="my-2 border-2 py-5 border-gray-200 w-full h-9 rounded outline-none px-3" value={email} />
                          <input type="password" required placeholder="Enter Your Password" onChange={(e) => setPassword(e.target.value)}
                               className="my-1 border-2 py-5 border-gray-200 w-full outline-none rounded h-9 px-3" value={password} />
-                         <Link href='/auth/forgot-password' className="forget mb-2 text-purple-800 flex justify-end mr-1 cursor-pointer">
+                         {/* <Link href='/auth/forgot-password' className="forget mb-2 text-purple-800 flex justify-end mr-1 cursor-pointer">
                               forget password ?
-                         </Link>
+                         </Link> */}
                          <button className="bg-purple-700 text-white rounded cursor-pointer py-2" type="submit">Login</button>
                          <div className="my-2 flex justify-center gap-1">
                               Don't Have account? <Link href='/auth/signup' className="text-purple-800 cursor-pointer">Sign Up</Link>

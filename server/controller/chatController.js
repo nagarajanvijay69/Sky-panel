@@ -98,6 +98,9 @@ exports.getConversation = async (req, res) => {
 
         const getUserName = async (id) => {
             const user = await userModel.findById(id);
+            if (!user){
+                console.log("user not found!", id);
+            }
             return user.username ?? user.email
         }
 
