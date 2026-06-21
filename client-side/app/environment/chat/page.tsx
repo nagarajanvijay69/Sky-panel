@@ -119,12 +119,14 @@ const ChatSidebar = () => {
 
 
   const handleMessagePage = async (id: string, user: conversationType) => {
-    setChatLoading(true)
+    setChatLoading(true);
+    // console.log("start", chatLoading)
     setIsShowChat(true);
     setConversationId(id);
     setSelectedUser(user);
-    getAllMessage(id);
+    await getAllMessage(id);
     setChatLoading(false);
+    // console.log("end", chatLoading)
   }
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -137,6 +139,9 @@ const ChatSidebar = () => {
 
   const [loading, setLoading] = useState(true);
   const [chatLoading, setChatLoading] = useState(true);
+
+      // console.log("out", chatLoading)
+
 
 
   return (
@@ -164,6 +169,7 @@ const ChatSidebar = () => {
                 :
                 (
                   filteredChat?.map((item, i) => {
+                    { !filteredChat?.[0] && <div className="ml-2 text-gray-700">No Chat Found</div> }
                     return <div key={i} className="bg-gray-200 rounded-md cursor-pointer flex items-center justify-between px-3 py-3"
                       onClick={() => handleMessagePage(item?._id, item)}>
                       <div className="flex gap-3 justify-center items-center">
@@ -188,7 +194,6 @@ const ChatSidebar = () => {
                   })
                 )
             }
-            {!filteredChat?.[0] && <div className="ml-2 text-gray-700">No Chat Found</div>}
           </div>
           <div className="absolute bottom-20 md:bottom-10 cursor-pointer right-7  md:right-10 bg-violet-900 text-white p-2 rounded-full"
             onClick={() => router.push('/environment/chat/addUser')} >
@@ -217,7 +222,7 @@ const ChatSidebar = () => {
             </nav>
             <div className={`body h-[79dvh] md:h-[80dvh] overflow-y-scroll w-[95%] ${(chatLoading && selectedUser) && "bg-white"} mx-auto my-3  px-3 pb-4 flex flex-col gap-3`}>
               {
-                chatLoading && selectedUser ?
+                chatLoading ?
                   <div className="h-full w-full flex justify-center items-center">
                     <div className="bg-[url('/load.gif')] w-40 h-40 bg-center bg-cover"></div>
                   </div>
@@ -237,7 +242,7 @@ const ChatSidebar = () => {
               }
               {/* scroll ref */}
               <div ref={scrollRef}></div>
-              {(!message?.[0] && selectedUser) && <div>No Message Found</div>}
+              {(!message?.[0] && selectedUser && !chatLoading) && <div>No Message Found</div>}
             </div>
 
             {/* input section */}
