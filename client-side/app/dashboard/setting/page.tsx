@@ -1,9 +1,9 @@
 'use client'
 
-import { RootState, setLogout, updateUser } from "@/app/store/store";
+import { RootState, setLogIn, setLogout, updateUser } from "@/app/store/store";
 import axios from "axios";
 import { Info, Pencil, TriangleAlert, UserLock } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -60,6 +60,15 @@ const setting = () => {
           setChangePassword(false);
      }
 
+     const handleLogout = async () => {
+          const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/logout`, { withCredentials: true });
+          if(res.data.success){
+               dispatch(setLogout());
+               dispatch(setLogIn(false));
+               redirect("/")
+          }
+     }
+
      const deleteUser = async () => {
           setDeleteLoad(true);
           const res = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URI}/deleteUser`, {
@@ -100,7 +109,7 @@ const setting = () => {
                               </div>
                               <div className="flex flex-col items-center mt-4 py-4">
                                    <div className="h-30 w-30 rounded-full bg-violet-200 flex justify-center items-center 
-                              text-4xl font-bold shadow-lg border text-violet-800">{user.username.at(0) ?? "?"}</div>
+                              text-4xl font-bold shadow-lg border text-violet-800">{user.username.at(0)?.toLocaleUpperCase() ?? "?"}</div>
                                    <p className="text-2xl text-violet-800 mt-3 font-bold">{user.username ? user.username : "Unknown User"}</p>
                                    <p className="text-xl text-gray-700">{user.email ? user.email : "unknown@gmail.com"}</p>
                               </div>
@@ -138,8 +147,36 @@ const setting = () => {
                               </div>
                          </div>
                     </div>
+                    <div className="bg-yellow-200 rounded-lg border-2 border-yellow-500 p-4 w-full mx-auto mt-4 shadow-xl">
+                         <p className="text-lg font-bold text-yellow-800 mb-3">Sign Out</p>
+                         <div className="flex flex-col md:flex-row md:justify-between">
+                              <div className="flex items-center gap-3">
+                                   <div className="text-yellow-800"><TriangleAlert size={30} /></div>
+                                   <div>
+                                        <p className="text-[16px] font-semibold text-gray-900">Signing Out</p>
+                                        <p className="text-gray-800">This action will remove your data</p>
+                                   </div>
+                              </div>
+                              <div>
+                                   <button onClick={() => {
+                                        if (window.confirm("Are you sure to Logout?")) handleLogout();
+                                   }} className="flex justify-center items-center cursor-pointer
+                               bg-yellow-700 h-10 w-36 rounded-lg text-white mt-5">{deleteLoad ? <div className="flex justify-center items-center gap-1 text-white">
+                                             <span className="h-3 w-3 rounded-full bg-white animate-pulse"></span>
+                                             <span
+                                                  className="h-3 w-3 rounded-full bg-white animate-pulse"
+                                                  style={{ animationDelay: "0.2s" }}
+                                             ></span>
+                                             <span
+                                                  className="h-3 w-3 rounded-full bg-white animate-pulse"
+                                                  style={{ animationDelay: "0.4s" }}
+                                             ></span>
+                                        </div> : "Sign out"}</button>
+                              </div>
+                         </div>
+                    </div>
                     <div className="bg-red-200 rounded-lg border-2 border-red-500 p-4 w-full mx-auto mt-4 shadow-xl">
-                         <p className="text-lg font-bold text-red-800 mb-3">About SkyPanel</p>
+                         <p className="text-lg font-bold text-red-800 mb-3">Delete Your Account</p>
                          <div className="flex flex-col md:flex-row md:justify-between">
                               <div className="flex items-center gap-3">
                                    <div className="text-red-800"><TriangleAlert size={30} /></div>

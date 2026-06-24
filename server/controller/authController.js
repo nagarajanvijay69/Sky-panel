@@ -116,6 +116,11 @@ exports.getToken = async (req, res) => {
           let data = jwt.verify(ticket, process.env.JWT_SECRET);
           if (data.userId) {
                const user = await userModel.findById(data.userId);
+               if(!user) return res.status(200).json({
+                    success: false,
+                    message: "Invalid Token!"
+               });
+               
                res.status(200).json({ success: true, message: "verified successfully", user })
           }
      } catch (error) {

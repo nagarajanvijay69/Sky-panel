@@ -96,7 +96,7 @@ const Home = () => {
                </div>
                <div className="btn mx-5 my-5 flex justify-center">
                   <button onClick={() => {
-                     if (login) router.push('/');
+                     if (login) router.push('/environment/chatbot');
                      else router.push('/auth/login');
                   }} className="bg-violet-800 cursor-pointer text-white w-full py-3 rounded-xl flex items-center justify-center">
                      Explore Now
@@ -132,14 +132,14 @@ const Home = () => {
                      <li>
                         <span className="flex gap-2">
                            <div className="bg-gray-200 border border-gray-300 rounded-full w-7 h-7 flex items-center justify-center">3</div>
-                           <p className="">Online / Offline status</p>
+                           <p className="">secure chat</p>
                         </span>
                      </li>
                   </ul>
                </div>
                <div className="btn mx-5 my-5 flex justify-center">
                   <button onClick={() => {
-                     if (login) router.push('/');
+                     if (login) router.push('/environment/chat');
                      else router.push('/auth/login');
                   }} className="bg-violet-800 cursor-pointer text-white w-full py-3 rounded-xl flex items-center justify-center">
                      Chat Now

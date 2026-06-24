@@ -222,7 +222,7 @@ const ChatSidebar = () => {
             </nav>
             <div className={`body h-[79dvh] md:h-[80dvh] overflow-y-scroll w-[95%] ${(chatLoading && selectedUser) && "bg-white"} mx-auto my-3  px-3 pb-4 flex flex-col gap-3`}>
               {
-                chatLoading ?
+                (chatLoading && selectedUser) ?
                   <div className="h-full w-full flex justify-center items-center">
                     <div className="bg-[url('/load.gif')] w-40 h-40 bg-center bg-cover"></div>
                   </div>
