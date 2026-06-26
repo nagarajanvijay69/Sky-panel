@@ -233,7 +233,7 @@ const ChatSidebar = () => {
                       <div key={index}
                         className={`flex ${item.sender_id === userId ? "justify-end" : "justify-start"}`}>
                         <div
-                          className={`flex py-2 px-3 max-w-[85%] md:max-w-[45%] lg:max-w-[70%] xl:max-w-[45%]  ${item.sender_id === userId ? "bg-violet-700 text-white justify-end rounded-lg" :
+                          className={`flex py-2 px-3 whitespace-pre-wrap break-all max-w-[85%] md:max-w-[45%] lg:max-w-[70%] xl:max-w-[45%]  ${item.sender_id === userId ? "bg-violet-700 text-white justify-end rounded-lg" :
                             "justify-start bg-gray-300 rounded-lg"}`}>
                           {item.message}
                         </div>
@@ -249,10 +249,10 @@ const ChatSidebar = () => {
             {/* input section */}
             {
               selectedUser && <section className="absolute h-15 w-[95%] left-2 ml-auto xl:left-35 bottom-1 flex items-center gap-2 lg:gap-4">
-                <input type="text" className="w-200 h-12 outline-none border-2 
-              focus:border-3 focus:border-violet-700 focus:shadow-lg border-gray-700 rounded-lg px-5"
+                <textarea className="w-200 h-12 outline-none border-2 resize-none
+              focus:border-3 focus:border-violet-700 focus:shadow-lg border-gray-700 rounded-lg px-5 flex items-center pt-3"
                   placeholder="Enter your message....." value={userMessage} onKeyDown={(e) => {
-                    if (e.key == 'Enter') {
+                    if (e.key == 'Enter' && !e.shiftKey) {
                       addChatMessage();
                     }
                   }} onChange={(e) => setUserMessage(e.target.value)} />
