@@ -38,7 +38,7 @@ const home = () => {
                 <p className="text-gray-100">Messages</p>
               </div>
               <div className="w-full bg-violet-700 rounded-lg p-3 flex flex-col justify-center hover:scale-[1.01] transision duration-100">
-                <p className="text-3xl font-bold">{user.tic_draw + user.chess_total}</p>
+                <p className="text-3xl font-bold">{user.tic_total + user.chess_total}</p>
                 <p className="text-gray-100">Games</p>
               </div>
             </div>

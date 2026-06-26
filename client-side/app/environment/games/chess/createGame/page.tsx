@@ -13,9 +13,15 @@ import axios from "axios";
 const InitGame = () => {
 
   const router = useRouter();
-
+  const [copy, setCopy] = useState(false);
+  console.log("copy code", copy)
   const handleCancel = () => {
     router.push('/environment/games/chess');
+  }
+
+  const handleCopy = async () => {
+     await navigator.clipboard.writeText(matchCode ?? "");
+     setCopy(true);
   }
 
   const dispatch = useDispatch()
@@ -64,8 +70,8 @@ const InitGame = () => {
 
 
   useEffect(() => {
-    const handleJoinGame = async() => {
-      const res = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URI}/user/addChess`, {userId: user})
+    const handleJoinGame = async () => {
+      const res = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URI}/user/addChess`, { userId: user })
       dispatch(updateUser(res.data.user));
       router.push('/environment/games/chess/playGame');
     }
@@ -87,7 +93,7 @@ const InitGame = () => {
         <div>
           <input className="w-[95%] font-bold shadow border border-violet-800 rounded-lg bg-violet-200 mx-auto mt-5
            h-20 flex justify-center text-center items-center text-3xl outline-none"
-            value={matchCode} readOnly />
+            value={matchCode ?? ""} readOnly />
         </div>
         <div className="flex justify-center items-center mt-5 text-lg gap-3">
           <div className="p-2 rounded-full bg-violet-300"><ChessQueen height={25} width={25} /></div>
@@ -96,9 +102,9 @@ const InitGame = () => {
         <div className="flex flex-col gap-3 mt-8 mb-5">
           <div className="flex justify-center items-center">
             <button className="bg-violet-900 text-white flex justify-center items-center rounded gap-2 px-3 py-3 w-[90%] md:w-[80%]
-             lg:w-[60%] cursor-pointer">
+             lg:w-[60%] cursor-pointer" onClick={handleCopy}>
               <Share />
-              Share Code
+             {!copy ? "Copy Code" : "Copied!"}
             </button>
           </div>
           <div className="flex justify-center items-center">

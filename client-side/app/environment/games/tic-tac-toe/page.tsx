@@ -1,7 +1,7 @@
 'use client'
 
 import { RootState } from "@/app/store/store";
-import { Equal, Frown, Gamepad2, Laptop, Medal, Play } from "lucide-react";
+import { ArrowLeft, Equal, Frown, Gamepad2, Laptop, Medal, Play } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
@@ -12,6 +12,7 @@ const TicTacToe = () => {
 
    return (
       <div className="h-[100dvh] md:bg-[url('/bg-pc.png')] bg-[url('/bg-mb.png')] bg-cover flex">
+         <div className="absolute left-4 top-4 text-white cursor-pointer" onClick={()=> router.push('/dashboard/apps')}><ArrowLeft size={33} /></div>
          <div className="flex flex-col items-center justify-center md:py-20 xl:w-[73%] w-full">
             <div className="md:mb-5">
                <div className="bg-violet-200 text-violet-900 rounded-lg p-3 flex gap-1 items-center shadow-md">

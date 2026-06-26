@@ -148,10 +148,11 @@ const ChatSidebar = () => {
     <>
       <div className={`h-[100dvh] lg:grid lg:grid-cols-5 xl:grid-cols-7 border-box overflow-y-hidden ${loading && "bg-white"}`}>
         <div className={`${isShowChat ? 'hidden lg:block' : ''} chat-sidebar lg:col-span-2 overflow-y-hidden relative`}>
-          <div className="chat-title px-4 pl-5 py-3 mt-2 font-bold text-xl text-violet-900">
-            ChatHub
+          <div className="chat-title px-4 pl-5 py-3 mt-2 font-bold text-xl text-violet-900 flex gap-2 items-center">
+            <div className="cursor-pointer" onClick={()=> router.push('/dashboard/apps')}><ArrowLeft size={30} /></div>
+            <div>ChatHub</div>
           </div>
-          <div className="search px-4 pb-3 mx-auto w-[97%]">
+          {/* <div className="search px-4 pb-3 mx-auto w-[97%]">
             <div className="flex items-center justify-center border pl-4 gap-2 bg-white mx-auto border-gray-200 h-[46px] w-full rounded-xl overflow-hidden">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="#6B7280">
                 <path d="M13 3C7.489 3 3 7.489 3 13s4.489 10 10 10a9.95 9.95 0 0 0 6.322-2.264l5.971 5.971a1 1 0 1 0 1.414-1.414l-5.97-5.97A9.95 9.95 0 0 0 23 13c0-5.511-4.489-10-10-10m0 2c4.43 0 8 3.57 8 8s-3.57 8-8 8-8-3.57-8-8 3.57-8 8-8" />
@@ -159,7 +160,7 @@ const ChatSidebar = () => {
               <input type="text" className="w-full h-full outline-none text-sm text-gray-500" placeholder="Search here..."
                 onChange={(e) => setSearch(e.target.value)} value={search} />
             </div>
-          </div>
+          </div> */}
           <div className="chats px-4 pl-5 flex flex-col gap-1 pb-15 md:pb-10 mt-2 overflow-y-scroll h-[90dvh] md:h-[80dvh]">
             {
               loading ?
