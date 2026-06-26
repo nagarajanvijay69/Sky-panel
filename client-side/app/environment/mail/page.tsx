@@ -90,8 +90,8 @@ const MailPage = () => {
               </div>
               <div className="text-white mb-3">
                 <p>Message</p>
-                <div className="border-violet-600 border-2 flex shadow-2xl h-52 lg:h-28 gap-2 px-3 rounded-lg mt-1">
-                  <div className="bg-violet-600 p-2 rounded-full h-10 w-10 flex justify-center items-center mt-2"><Pen /></div>
+                <div className="border-violet-600 border-2 flex overflow-hidden shadow-2xl h-52 lg:h-28 gap-2 px-3 rounded-lg mt-1">
+                  <div className="bg-violet-600 p-2 rounded-full h-10 w-10 flex justify-center items-center mt-5 md:mt-2"><Pen /></div>
                   <textarea className="outline-none resize-none w-full h-full lg:h-[85%] mt-3 no-scrollbar" value={message} placeholder="Enter your message here..."
                     onChange={(e) => setMessage(e.target.value)}></ textarea>
                 </div>
@@ -184,7 +184,7 @@ const MailPage = () => {
               </div>
             </div>
             <div className="mt-4 lg:mt-2 flex lg:text-[14px] justify-center flex items-center text-gray-200 overflow-hidden">
-              <p>AI can make mistakes. Please review before sending.</p>
+              <p className="text-center">AI can make mistakes. Please review before sending.</p>
             </div>
           </div>
         </div>

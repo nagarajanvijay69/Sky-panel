@@ -22,6 +22,7 @@ const AiInput = (props: inputProps) => {
     console.log(loading);
 
     const handleMessage = async () => {
+        if(!query) return;
         setLoading(true);
         if (chatId) {
             setWelcomePage(false);
@@ -38,7 +39,7 @@ const AiInput = (props: inputProps) => {
 
 
         const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URI}/chatbot/getResponse`,
-            { userId, chatId, title: query.slice(0, 15), message: query });
+            { userId, chatId, title: query.slice(0, 15), message: query.trim() });
 
         console.log(res);
 
@@ -67,13 +68,10 @@ const AiInput = (props: inputProps) => {
 
     return <>
         <div className="w-[90%] mx-auto max-w-3xl">
-            <div className="border-3 border-violet-800 w-full h-15 rounded-2xl text-gray-900 flex items-center">
-                <input type="text" placeholder="Enter prompt here..."
-                    className="px-6 outline-none w-full h-15"
+            <div className="border-3 border-violet-800 w-full h-15 overflow-hidden rounded-2xl text-gray-900 flex items-center">
+                <textarea placeholder="Enter prompt here..."
+                    className="px-6 outline-none w-full h-15 flex items-center resize-none pt-4 no-scrollbar"
                     onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key == 'Enter') handleMessage()
-                    }}
                     value={query}
                 />
                 {/* send button */}

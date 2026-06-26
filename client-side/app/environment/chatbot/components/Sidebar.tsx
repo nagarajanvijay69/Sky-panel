@@ -95,12 +95,12 @@ const Sidebar = (props: sidebarProps) => {
                         {isSidebarOpen && <p className={`${delay ? 'h-auto w-auto opacity-100' : 'h-0 w-0 overflow-hidden opacity-0'}
                          transistion-all duration-500`}>New Chat</p>}
                     </li>
-                    <li className={`flex gap-2 justify-center items-center h-10 cursor-pointer
+                    {/* <li className={`flex gap-2 justify-center items-center h-10 cursor-pointer
                      ${isSidebarOpen && 'pr-10'} hover:bg-violet-900 bg-violet-700 rounded-lg`}>
                         <div><Search /></div>
                         {isSidebarOpen && <p className={`${delay ? 'h-auto w-auto opacity-100' : 'h-0 w-0 overflow-hidden opacity-0'}
                          transistion-all duration-500`}>Search</p>}
-                    </li>
+                    </li> */}
                 </ul>
                 {/* Recent chats */}
                 <div className={`mt-6 text-white w-[300px] mx-auto overflow-hidden transistion-[opacity]

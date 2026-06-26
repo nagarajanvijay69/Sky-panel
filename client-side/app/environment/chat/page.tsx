@@ -59,8 +59,10 @@ const ChatSidebar = () => {
 
 
   const [search, setSearch] = useState("");
-  const filteredChat = conversation.filter((item) => item.username.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
-
+  const filteredChat = conversation
+  .filter((item) => item.username.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+  .sort((a, b)=> new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()) ;
+  
   const user = useSelector((state: RootState) => state.user.value)
   const addChatMessage = async () => {
     // console.log("Function called", userMessage)
@@ -76,7 +78,7 @@ const ChatSidebar = () => {
       _id: "",
       chatId: conversationId,
       senderId: userId,
-      message: userMessage,
+      message: userMessage.trim(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       receiverId: selectedUser?.receiver_id
@@ -250,12 +252,9 @@ const ChatSidebar = () => {
             {
               selectedUser && <section className="absolute h-15 w-[95%] left-2 ml-auto xl:left-35 bottom-1 flex items-center gap-2 lg:gap-4">
                 <textarea className="w-200 h-12 outline-none border-2 resize-none
-              focus:border-3 focus:border-violet-700 focus:shadow-lg border-gray-700 rounded-lg px-5 flex items-center pt-3"
-                  placeholder="Enter your message....." value={userMessage} onKeyDown={(e) => {
-                    if (e.key == 'Enter' && !e.shiftKey) {
-                      addChatMessage();
-                    }
-                  }} onChange={(e) => setUserMessage(e.target.value)} />
+              focus:border-3 focus:border-violet-700 focus:shadow-lg border-gray-700 rounded-lg px-5 flex items-center pt-3 no-scrollbar"
+                  placeholder="Enter your message....." value={userMessage}
+                   onChange={(e) => setUserMessage(e.target.value)} />
                 <div className="lg:h-9 lg:w-9 h-18 w-18 md:h-13 md:w-13 text-gray-700 cursor-pointer"
                   onClick={addChatMessage}><SendHorizontal className="h-full w-full" /></div>
               </section>
